@@ -1,0 +1,6 @@
+<?php
+
+
+$server = ""; //Server address
+
+
