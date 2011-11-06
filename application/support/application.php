@@ -15,7 +15,7 @@ abstract class application
 	
 	function sanitize($input)
 	{
-		return str_replace(array(";","\"","'","\\","`","."),"",$input);
+		return str_replace(array(";","\"","'","\\","`"),"",$input);
 	}
 	
 	function short($str)
@@ -39,4 +39,5 @@ abstract class application
 	
 	}
 	
+
 }

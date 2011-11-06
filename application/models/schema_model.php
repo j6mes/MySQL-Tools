@@ -2,10 +2,12 @@
 
 class Schema_Model extends Model
 {
-
-	function __construct()
-	{
 	
+	private $schema;
+
+	function __construct($schema="")
+	{
+		$this->schema = $schema;
 		parent::__construct();
 	}
 	
@@ -38,8 +40,51 @@ class Schema_Model extends Model
 		return $schemata;
 	}
 	
-		
+	
+	function drop($schema)
+	{
 
+
+		try
+		{
+			$stmt = $this->dbh->query("
+		DROP SCHEMA `{$schema}`");
+		
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	
+		$error = $this->dbh->errorInfo();
+		if(intval($error[0])) 
+		{
+		    return $error;
+	  	}
+		
+		return 1;
+	
+	
+	}
+	
+		
+	function permission($permission)
+	{
+		/*
+		$stmt = $this->dbh->prepare("SHOW GRANTS FOR ``";
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$stmt->bindParam(1,$schema);
+		$stmt->bindParam(2,$schema);
+		$stmt->execute();
+		while ($col = $stmt->fetch())	
+		{
+			$tables[$col['TABLE_NAME']][]=$col;
+		}
+		 * *
+		 */
+		
+		return 1;
+	}
 	
 	function getTables($schema)
 	{

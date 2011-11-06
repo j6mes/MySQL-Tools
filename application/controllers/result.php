@@ -16,6 +16,7 @@ class result extends Controller
 			$this->model->parent= $this->parent;
 			$this->model->controller= $this;
 			$data['results']= $this->model->run($query);
+			$data['status']= $this->dbh->rowCount;
 			$data['query']=$query;
 			$data['schema']= $schema;
 			$this->view->render("result",$data);
@@ -31,7 +32,34 @@ class result extends Controller
 		$this->model->schemaExists($schema);
 		
 		$query = $_POST['query'];
-		echo $query;
+
+		try
+		{
+			$stmt = $this->model->dbh->query(stripslashes($query));
+		}
+		catch (PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+		
+		  $error = $this->model->dbh->errorInfo();
+	
+  			if(intval($error[0])>0) {
+   			echo json_encode(array("error"=>$error));
+		 }
+		 else
+		 {
+	  
+			
+			
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				$rows[]=$row;
+			}
+			
+			$tmpArr = array("status"=>strval($stmt->rowCount()),"result"=>$rows);
+			echo json_encode($tmpArr);
+		}
 	}
 
 }

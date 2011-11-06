@@ -2,6 +2,7 @@
 
 class View
 {
+	public $parent;
 	public function render($name, $arg="")
 	{
 		require "application/views/{$name}/index.php";
@@ -10,13 +11,28 @@ class View
 		
 		if($name != "login")
 		{
-			$pc = "<div class=\"sideleft\"><strong>Databases</strong><br />blah<div><strong>Users</strong></div></div>
-<div class=\"sideright\">{$pc}</div>";
-
+			include_once("application/controllers/schema.php");
+			$tmpIndex = new schema();
+			
+			$tmpIndex->parent = $this->parent->parent;
+			$schemata = $tmpIndex->all(false);
+			//todo: list
+			//<?=$GLOBALS['schema'];
+			$childtables = $tmpIndex->view($GLOBALS['schema'],true);
+			
+			
 		}
+		
+				
 		require "application/views/template.php";
 	}
 	
+	
+	public function ajax($view,$arg=array())
+	{
+		
+		die (json_encode($arg));
+	} 
 	
 	
 	

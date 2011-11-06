@@ -37,4 +37,29 @@ class table_model extends Model
 	
 	}
 	
+	function drop($schema,$table)
+	{
+
+		try
+		{
+			$stmt = $this->dbh->query("
+		DROP TABLE `{$schema}`.`{$table}`");
+		
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	
+		$error = $this->dbh->errorInfo();
+		
+
+		if(intval($error[0])) 
+		{
+		    return $error;
+	  	}
+		
+		return 1;
+
+	}
 }

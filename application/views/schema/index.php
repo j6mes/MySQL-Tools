@@ -1,5 +1,4 @@
-
-	<h2>Tables In Schema <?=$arg['schema'] ?></h2>
+<h2>Tables In Schema <?=$arg['schema']?></h2>
 <?php
 
 echo $arg['message'];
@@ -40,6 +39,7 @@ if(isset($arg['tables']))
 				
 		echo "</div>";
 }
+
 
 /*
 

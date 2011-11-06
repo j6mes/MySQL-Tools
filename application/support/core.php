@@ -29,7 +29,7 @@ class core
 				
 		//start/resume a session
 		$this->s = new session();
-		
+		$this->dbh =& $this->s->dbh;
 	
 			//Lets try and load our controller now
 			try
@@ -37,11 +37,16 @@ class core
 			
 				if($controller=="index" or $controller=="authentication")
 				{
+					
 				}
 				else
 				{
 					if($this->needsAuth())
 					{
+						if($controller=="keepalive")
+						{
+							die ("0");
+						}
 						throw new AuthException("Need Authentication");
 						
 					}
@@ -68,6 +73,7 @@ class core
 			{
 				//controller was not found. Lets show a real page.
 				echo "controller not found";
+				echo $e->getMessage();
 				die;
 				
 			}
