@@ -19,6 +19,7 @@ class result extends Controller
 			$data['status']= $this->dbh->rowCount;
 			$data['query']=$query;
 			$data['schema']= $schema;
+			$data['title']= "View Resultset ({$schema})";
 			$this->view->render("result",$data);
 		}
 	}	

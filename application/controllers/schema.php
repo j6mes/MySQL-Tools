@@ -51,7 +51,7 @@ class schema extends Controller
 			if(!$internal)
 			{
 				
-			
+				$data['title'] = "View Tables in {$data['schema']}";
 				$this->view->render("schema",$data);
 			}
 			else {
@@ -176,10 +176,19 @@ class schema extends Controller
 		
 		$data['schemata'] = $schemata;
 		
+		
 		if($render==true)
 		{
+			if($_POST['ajax']==1)
+			{
+				die(json_encode($data));
+			}
+			else 
+			{
+				$this->view->render("schemata",$data);
+			}
 
-			$this->view->render("schemata",$data);
+			
 		}
 	
 		return $schemata;
@@ -193,15 +202,26 @@ class schema extends Controller
 		//if(strlen($_POST['q'])>1)
 		if(true)
 		{
-		$this->model = new schema_model();
-		$this->model->parent= $this->parent;
-		
-		$schemata = $this->model->tabList(application::sanitize($_POST['q']));
-		
-		foreach($schemata as $item)
-		{
-			$data['result'][$item['TABLE_SCHEMA']][]= $item['TABLE_NAME'];
-		}
+			$this->model = new schema_model();
+			$this->model->parent= $this->parent;
+			
+			$schemata = $this->model->tabList(application::sanitize($_POST['q']));
+			
+			if(!sizeof($schemata))
+			{
+				$data['isempty']=1;
+				$data['error']="No Results Found!";
+			}
+			else 
+			{
+				
+			
+				
+				foreach($schemata as $item)
+				{
+					$data['result'][$item['TABLE_SCHEMA']][]= $item['TABLE_NAME'];
+				}
+			}
 		//$data['tables'] = $schemata;
 		}
 		else

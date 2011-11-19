@@ -22,7 +22,7 @@
 		
 	}
 	
-	$arg['title']="wahaa";
+	
 	if(sizeof($schemata))
 	{
 		$dblist = "<ul>";
@@ -51,7 +51,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title><?=$arg['title'] ?> <? strlen($arg['title']) ? $out = " - " : $out = ""; ?><?=$out ?> MySQL Tools</title>
+		<title><?=$arg['title'] ?><? strlen($arg['title']) ? $out = " - " : $out = ""; ?><?=$out ?> MySQL Tools</title>
 		<link rel="stylesheet" href="/static/style.css" type="text/css" />
 	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js">
@@ -63,7 +63,7 @@
 	
 	<script type="text/javascript">
 		var oRoot = "<?=$_SERVER['REQUEST_URI']?>";
-		
+
 		$(document).ready(function()
 		{
 			var dbTmp = $("#filtration").html();
@@ -107,7 +107,21 @@
 					
 					$.post("/schema/filter",{q:$("#filteridf").val()},function(data)
 					{
-						loadTables($("#filtration"),data.result);
+						if(!data.isempty)
+						{
+							
+						
+							loadTables($("#filtration"),data.result);
+						}
+						else
+						{
+							
+							if($("div#nomoreresults").attr("id")===undefined)
+							{
+								$("#filtration").prepend("<div id=\"nomoreresults\">No More Results</div>");
+							}
+						}
+						
 						
 						
 					},"json");
@@ -121,31 +135,7 @@
 			
 			
 			
-			$("li.jQschema>a").click(function(e)
-			{
-				var schema = $(this).attr('id').substr(7);
-				
-				
-				if($("#div-"+schema).length)
-				{
-					$("#div-"+schema).remove();
-				}
-				else
-				{
-					$("#li-"+schema).append("<div id=\"div-"+schema+"\">Loading</div>");
-					tables = getTables(schema);
-				}	
-				
-				
-			});
-			
-			 $("li.jQschema>a").contextMenu({
-			menu: 'menuSchema'
-			},
-			    function(action, el, pos) {
-						act(action,$(el).attr('id'));
-			        
-			});
+			rebind();
 
 
 
@@ -198,6 +188,7 @@
 		});
 		
 		
+		
 		function loadTables(obj, data)
 		{
 			obj.html("");
@@ -210,7 +201,8 @@
 				
 			
 			
-			})
+			});
+			rebind();
 		}	
 		
 		function act(action,el)
@@ -227,6 +219,7 @@
 			{
 				modal("#create","/schema/ajax_drop/"+loc);
 			}
+			
 			
 			
 			
@@ -249,9 +242,47 @@
 				loc = loc.split(".",1);
 				modal("#create","/schema/ajax_create/");
 			}
+			if(action=="refresh")
+			{
+				refreshSchemata();
+			}
 			
 		}
 		
+		function rebind()
+		{
+			$("li.jQschema>a").unbind("click");
+			
+			
+			$("li.jQschema>a").click(function(e)
+			{
+				var schema = $(this).attr('id').substr(7);
+				
+				
+				if($("#div-"+schema).length)
+				{
+					$("#div-"+schema).remove();
+		
+					
+				}
+				else
+				{
+					$("#li-"+schema).append("<div id=\"div-"+schema+"\">Loading</div>");
+					tables = getTables(schema);
+					
+				}	
+				
+				
+			});
+			
+			 $("li.jQschema>a").contextMenu({
+			menu: 'menuSchema'
+			},
+			    function(action, el, pos) {
+						act(action,$(el).attr('id'));
+			        
+			});
+		}
 		function modal(id,source)
 		{
 			 //transition effect     
@@ -309,6 +340,8 @@
 				}
 				else
 				{
+					
+			
 					var xTables= Array();
 					$.each(data.tables,function(idx,info)
 					{
@@ -349,6 +382,53 @@
 				//$(this).append("</ul></div>");
 			}
 		}
+		
+		function refreshSchemata()
+		{
+			openTables = Array();
+			$("#filteridf").val("");
+			$("#filteridf").blur();
+			$("ul>li.schema").each(function(idx,elem)
+			{
+				if($(elem).find("div>ul.tables").attr("id")!==undefined)
+				{
+					openTables.push($(elem).find("div>ul.tables").attr("id").substr(6));
+				}	
+			})
+			
+			$("#filtration").html("Loading");
+			
+			$.post("/schema/all",{ajax:1},function(data)
+			{
+				$("#filtration").html("");
+				$("#filtration").append("<ul id=\"ajaxtabs\"></ul>")
+				$.each(data.schemata,function(idx,schema)
+				{
+					
+					
+					$("#filtration").find("ul:first").append("<li id=\"li-"+schema.name+"\" class=\"jQschema schema\"><a id=\"schema-"+schema.name+"\" href=\"#/schema/view/"+schema.name+"\">"+schema.name+"</a></li>");				
+						
+					
+						
+					
+					
+				});
+				
+				$.each(openTables,function(idx,schema)
+				{
+					getTables(schema);
+				});
+				
+				
+				rebind();
+				
+			},"json");
+			
+			
+			
+		}
+		
+		
 	</script>
 	</head>
 <body>
