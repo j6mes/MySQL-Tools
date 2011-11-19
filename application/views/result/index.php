@@ -4,6 +4,16 @@
 		var idxcol="";
 		var idxtab="";
 		var idxschem="";
+		
+		window.onbeforeunload = function() 
+		{
+			if(editmode==1)
+			{
+  				return "You have unsaved changes on this page.\Leaving this page will lose ALL UNSAVED CHANGES.";
+  			}
+  			
+		}
+
 	$(document).ready(function()
 	{
 
@@ -16,12 +26,19 @@
 				$("#btn-edit").html("Save");	
 				$("#btn-discard").css("display","inline");
 				editmode=1;
+				
+		
+				
+		
 			}
 			else
 			{
 				$("#btn-edit").html("Edit");
 				$("#btn-discard").css("display","none");
 				editmode=0;	
+				
+	
+				
 			}
 			
 			
@@ -30,6 +47,15 @@
 	
 		$("#btn-exe").click(function()
 		{
+			if(editmode==1)
+			{
+				
+				if(!confirm("Executing this query will cause you to lose all unsaved changes"))
+				{
+					return false;
+				}
+			
+			}
 			idxcol="";
 			idxtab="";
 		
@@ -117,9 +143,9 @@
 						var etext="";
 						switch(idx)
 						{
-							case 0: etext+="SQL State: "; break;
-							case 1: etext+="Error Code: "; break;
-							case 2: etext+="Info: "; break;
+							case 0: etext="SQL State: "; break;
+							case 1: etext="Error Code: "; break;
+							case 2: etext="Info: "; break;
 						}
 						rowcontents += "<td>"+etext+"</td><td>"+row+"</td>";
 						rowcontents += "</tr>";
@@ -136,7 +162,7 @@
 		});
 	});
 	var editing =0;
-	
+	var pinpoint = "";
 	
 	function bindRows()
 	{
@@ -151,8 +177,10 @@
 	
 				var areaoid = $(this).parent();
 				//$(this).parent().html("<textarea id=\"tmpeditstr\">"+$(this).html()+"</textarea>");
+				pinpoint = "";
 				$.post("/table/pinpoint/<?=htmlentities($arg['schema'])?>",{table:idxtab,indexer:idxcol,index:$(this).parent().attr("col"),request:$(this).parent().attr("row")},function(data)
 				{
+					pinpoint = data;
 					if(data.indexOf("\n",0)>0)
 					{
 						areaoid.html("<textarea id=\"tmpeditstr\" class=\"superlong\" >"+data+"</textarea>");
@@ -165,6 +193,7 @@
 				});
 				event.stopPropagation();
 				$("td.editzone>pre").unbind("click");
+				/*
 				$("td.editzone>pre").not("#tmpeditstr").click(function(event)
 				{
 					
@@ -174,7 +203,7 @@
 						releaseEdit();
 					}
 				});
-				
+				*/
 				$("div").not("#tmpeditstr").click(function(event)
 				{
 					
@@ -203,9 +232,19 @@
 			$("#tmpeditstr").parent().append("<pre></pre>");
 		
 			$("#tmpeditstr").parent().find("pre").text(text);
+	
+			if(text=pinpoint)
+			{
+		
+				$("#tmpeditstr").parent().css("background-color","#DDFFDD");
+				$("#tmpeditstr").parent().find("pre").attr("changed",1);
+			}
+			
 			
 			$("#tmpeditstr").remove();
 			$("td.editzone>pre").not("#tmpeditstr").unbind("click");
+			
+			
 			bindRows();
 			
 		}

@@ -27,14 +27,14 @@ class Schema_Model extends Model
 	{
 	
 		$stmt = $this->parent->s->dbh->query("
-		SELECT `SCHEMA_NAME`, COUNT(`TABLE_NAME`) as CC
+		SELECT `SCHEMA_NAME`, COUNT(`TABLE_NAME`) as CC,`TABLE_TYPE`
 		FROM `information_schema`.`SCHEMATA`
 		LEFT JOIN `information_schema`.`TABLES` ON `TABLES`.`TABLE_SCHEMA`=`SCHEMATA`.`SCHEMA_NAME`
 		GROUP BY `TABLES`.`TABLE_SCHEMA`");
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		while ($schema = $stmt->fetch())
 		{
-			$schemata[]=array("name"=>$schema['SCHEMA_NAME'],"count"=>$schema['CC']);
+			$schemata[]=array("name"=>$schema['SCHEMA_NAME'],"count"=>$schema['CC'],"type"=>$schema['TABLE_TYPE']);
 		}
 		
 		return $schemata;
@@ -109,7 +109,7 @@ class Schema_Model extends Model
 	{
 	
 		$qry = "%{$qry}%";
-		$stmt= $this->parent->s->dbh->prepare("SELECT `TABLE_SCHEMA`,`TABLE_NAME` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` LIKE ? ORDER BY `TABLE_SCHEMA` ASC");
+		$stmt= $this->parent->s->dbh->prepare("SELECT `TABLE_SCHEMA`,`TABLE_NAME`,`TABLE_TYPE` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` LIKE ? ORDER BY `TABLE_SCHEMA` ASC");
 		
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 

@@ -97,7 +97,7 @@
 	.sideleft, .sideright
 	{
 		position:absolute;
-			top:0px; bottom:0px;
+		top:0px; bottom:0px;
 
 	}
 	
@@ -119,10 +119,11 @@
 	.sideright{ left:182px; right:0px; overflow-x:auto; overflow-y:hidden;}
 	
 	.sideleft
-	{left:0; width:172px; padding:4px; bottom:0;  background: #EEEEEE;overflow-x:hidden; overflow-y: hidden;  border-right:1px #CCCCCC solid;}
+	{left:0; width:172px; padding:4px; padding-right:0; bottom:0; cursor:w-resize; background: #ccc;overflow-x:hidden; overflow-y: hidden;  border-right:1px #bbb solid;}
+	
 	
 	.ldb_schemata
-	{position:absolute; top:0; left:0; right:0; bottom:0px; padding-left:10px; background: #FFFFFF; border:1px solid #ddd; overflow-x:hidden; overflow-y: scroll;}
+	{position:absolute; cursor:default ;top:0; left:0; right:5px; bottom:0px; padding-left:10px; background: #FFFFFF; border:1px solid #ddd; overflow-x:hidden; overflow-y: scroll;}
 	
 	
 	.noset
@@ -190,8 +191,12 @@
 	text-decoration: underline;
 }
 	.sideleft ul
-	{margin:10px 17px;padding:0}
+	{margin:10px 17px;padding:0;}
 	
+	.sideleft
+	{
+		padding-right:8px;;
+	}
 	.topmost
 	{background-color:#000; color:#FFFFFF; font-size:11px; height:22px; padding:5px;}
 	
@@ -259,6 +264,9 @@
 	
 	.sideleft li.table
 	{list-style-image: url('/static/famfamfam/table.png')}
+	
+	.sideleft li.ldb_view
+	{list-style-image: url('/static/famfamfam/table_multiple.png')}
 	
 	.sideleft li.message
 	{list-style-image: none;}

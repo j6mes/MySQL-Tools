@@ -219,7 +219,7 @@ class schema extends Controller
 				
 				foreach($schemata as $item)
 				{
-					$data['result'][$item['TABLE_SCHEMA']][]= $item['TABLE_NAME'];
+					$data['result'][$item['TABLE_SCHEMA']][]= array("name"=>$item['TABLE_NAME'],"type"=>$item['TABLE_TYPE']);
 				}
 			}
 		//$data['tables'] = $schemata;

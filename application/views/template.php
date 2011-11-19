@@ -36,7 +36,13 @@
 				$schema['children'] .= "<div id=\"div-{$GLOBALS['schema']}\"><ul class=\"tables\" id=\"child-{$GLOBALS['schema']}\">";
 				foreach($childtables as $table=>$tabledata)
 				{
-					$schema['children'] .= "<li class=\"jQtable table\"><a id=\"xtable-{$GLOBALS['schema']}.{$table['TABLE_NAME']}\" href=\"/table/view/{$GLOBALS['schema']}.{$table}\">{$table}</li>";
+					$xview = "";
+			
+					if($tabledata[0]['TABLE_TYPE']=="VIEW")
+					{
+						$xview = "ldb_view";
+					}
+					$schema['children'] .= "<li class=\"jQtable table {$xview}\"><a id=\"xtable-{$GLOBALS['schema']}.{$tabledata[0]['TABLE_NAME']}\" href=\"/table/view/{$GLOBALS['schema']}.{$table}\">{$table}</li>";
 				}
 				$schema['children'] .= "</ul>";
 			}
@@ -63,7 +69,7 @@
 	
 	<script type="text/javascript">
 		var oRoot = "<?=$_SERVER['REQUEST_URI']?>";
-
+		var bindmouse= 0;
 		$(document).ready(function()
 		{
 			var dbTmp = $("#filtration").html();
@@ -79,6 +85,79 @@
 				});
 				
 			},60*1000);
+			
+			$(".sideleft").mousedown(function(e)
+			{
+		
+				if(e.target==this)
+				{
+					bindmouse=1;	
+					
+					e.preventDefault();
+					$("html").mousemove(function(e)
+					{
+						
+						if(bindmouse)
+						{
+							
+							if(parseInt($(".sideleft").css("width"))>171 && e.pageX>168)
+							{						
+								if(parseInt($(".sideleft").css("width"))<401)
+								{						
+									$(".sideleft").css("width",e.pageX)
+									$(".sideright").css("left",e.pageX+10)
+									
+								}
+								else
+								{
+									$(".sideleft").css("width",400)
+									$(".sideright").css("left",410)
+								}
+								
+							}
+							else
+							{
+								$(".sideleft").css("width",172)
+								$(".sideright").css("left",182)
+							}
+						}
+					});
+			
+				}
+			});
+			
+			$("html").mouseup(function(e)
+			{
+				if(bindmouse)
+				{
+					bindmouse=0;
+				
+					$("html").unbind("mousemove");
+					
+					if(e.pageX>171)
+					{						
+						if(parseInt($(".sideleft").css("width"))<401)
+						{						
+							
+							
+						}
+						else
+						{
+							$(".sideleft").css("width",400)
+							$(".sideright").css("left",410)
+						}
+						
+					}
+					else
+					{
+						$(".sideleft").css("width",172)
+						$(".sideright").css("left",182)
+					}
+					
+				}
+			});
+			
+			
 			
 			$("#filteridf").focus(function()
 			{
@@ -345,8 +424,12 @@
 					var xTables= Array();
 					$.each(data.tables,function(idx,info)
 					{
-				
-						xTables.push(idx);
+						var tmp = new Array();
+					
+						tmp['name']=idx;
+						//alert(info.toString());
+						tmp['type']=info[0]['TABLE_TYPE'];
+						xTables.push(tmp);
 					});
 					addTables(schema, xTables);
 				}
@@ -364,8 +447,14 @@
 				$("#li-"+schema).append("<div id=\"div-"+schema+"\"><ul class=\"tables\" id=\"child-"+schema+"\"></ul></div>");
 				$.each(tables,function(idx,table)
 				{
+					extra = "";
 					
-					$("#child-"+schema).append("<li class=\"jQtable table\"><a id=\"xtable-"+schema+"."+table+"\" href=\"/table/view/"+schema+"."+table+"\">"+table+"</a></li>");
+					if(table.type=="VIEW")
+					{
+						extra="ldb_view";
+					}
+					
+					$("#child-"+schema).append("<li class=\"jQtable table "+extra+"\"><a id=\"xtable-"+schema+"."+table.name+"\" href=\"/table/view/"+schema+"."+table.name+"\">"+table.name+"</a></li>");
 				});
 				
 				
