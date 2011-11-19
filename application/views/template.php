@@ -66,6 +66,7 @@
 		
 		$(document).ready(function()
 		{
+			var dbTmp = $("#filtration").html();
 			
 			setInterval(function()
 			{
@@ -101,10 +102,20 @@
 			
 			$("#filteridf").keyup(function()
 			{
-				$.post("/",{},function(result)
+				if($("#filteridf").val().length>2)
 				{
 					
-				});
+					$.post("/schema/filter",{q:$("#filteridf").val()},function(data)
+					{
+						loadTables($("#filtration"),data.result);
+						
+						
+					},"json");
+				}
+				else
+				{
+					$("#filtration").html(dbTmp);
+				}
 			});
 			
 			
@@ -186,7 +197,21 @@
 			
 		});
 		
+		
+		function loadTables(obj, data)
+		{
+			obj.html("");
+			obj.append("<ul id=\"ajaxtabs\"></ul>")
+			$.each(data,function(idx,tables)
+			{
+				obj.find("ul:first").append("<li id=\"li-"+idx+"\" class=\"jQschema schema\"><a id=\"schema-"+idx+"\" href=\"#/schema/view/"+idx+"\">"+idx+"</a></li>");				
+				
+				addTables(idx,tables);
+				
 			
+			
+			})
+		}	
 		
 		function act(action,el)
 		{
@@ -247,10 +272,9 @@
 	        	$(id).html(data);
 	        });
 	        
-	        $(".closebutton").unbind("click");
+	        $(".closebutton").un("click");
 	        $(".closebutton").click(function()
 	        {
-	        	alert("hey");
 	        	$('#mask').fadeOut(200);
 				$('.window').fadeOut(100);
 	       	});
@@ -304,24 +328,25 @@
 			if(tables.length)
 			{ 
 				$("#div-"+schema).remove();
-				$("#li-"+schema).append("<div id=\"div-"+schema+"\"><ul class=\"tables\" id=\"child-"+schema+"\">");
+				$("#li-"+schema).append("<div id=\"div-"+schema+"\"><ul class=\"tables\" id=\"child-"+schema+"\"></ul></div>");
 				$.each(tables,function(idx,table)
 				{
 					
 					$("#child-"+schema).append("<li class=\"jQtable table\"><a id=\"xtable-"+schema+"."+table+"\" href=\"/table/view/"+schema+"."+table+"\">"+table+"</a></li>");
 				});
 				
-				 $("li.jQtable>a").contextMenu({
-			menu: 'menuTable'
-			},
+				
+				$("li.jQtable>a").contextMenu({
+				menu: 'menuTable'
+					},
 			    function(action, el, pos) {
 			    
 						act(action,$(el).attr('id'));
 					
 			       
-			});
+				});
 
-				$(this).append("</ul></div>");
+				//$(this).append("</ul></div>");
 			}
 		}
 	</script>
@@ -440,7 +465,7 @@
 	}?>
 	
 		<div class="sideleft"><div class="ldb_schemata">
-			<input type="text" value="filter" id="filteridf"><?=$dblist?></div></div>
+			<input type="text" value="filter" id="filteridf"><div id="filtration"><?=$dblist?></div></div></div>
 		<div class="sideright"><?=$pc?></div>
 	
 	</div>

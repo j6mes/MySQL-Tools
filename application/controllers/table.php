@@ -229,7 +229,32 @@ class table extends Controller
 	}
 		
 		
-	
+	function pinpoint($schema)
+	{
+		$this->model= new table_model();
+		$this->model->parent = $this->parent;
+		try
+		{
+			
+		
+			if($this->model->schemaExists($schema))
+			{
+				if($this->model->tableExists($_POST['table']))
+				{
+					
+					$this->model->pinpoint();
+				}
+			}
+			
+		}
+		catch(Exception $e)
+		{
+			//todo some kind of error handling here
+			echo $e->getMessage();
+			
+		}
+	}	
+
 	
 	function _run($schema,$table)
 	{
@@ -237,5 +262,6 @@ class table extends Controller
 		$result = new result($this->parent,$this->model->dbh,"SELECT * FROM `{$table}` LIMIT 0,50",$schema);
 	}
 	
+
 	
 }

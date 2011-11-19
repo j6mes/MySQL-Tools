@@ -43,6 +43,22 @@
 	{
 		background: #FCFCFC url('/static/icons/exe.png') no-repeat .4em 50%;
 	}
+	
+	#btn-edit
+	{
+		background: #FCFCFC url('/static/icons/bookmark.png') no-repeat .4em 50%;
+	}
+	
+	#btn-discard
+	{
+	
+		background: #FCFCFC url('/static/icons/discard.png') no-repeat .4em 50%;
+	}
+	
+	#btn-export
+	{
+		background: #FCFCFC url('/static/icons/export.png') no-repeat .4em 50%;
+	}
 	.mstoolbar
 	{
 		 
@@ -54,25 +70,45 @@
 	td
 	{
 		white-space: nowrap;
+		padding:0;
+		height:20px;
 	}
 	td>pre{
 		padding:0; margin:0; font-family:Arial;
+		display:block;
+		width:100%;
+		height:100%;
+		cursor:pointer;
+		overflow:none;
 	}
 	th
 	{border-bottom:1px solid #DDD; background-color:#F6F6F6;}
+	
 	.mstoolbar li:nth-child(1)
 	{
 		margin-left:25px;
 	}
+	
 	.mstoolbar ul
 	{
 		margin:0; padding:0;
 	}
+	
 	.sideleft, .sideright
 	{
 		position:absolute;
 			top:0px; bottom:0px;
 
+	}
+	
+	#tmpeditstr
+	{
+		width:100%;
+		height:100%;
+		display:block;
+		border:0;
+		padding:0;
+		margin:0;
 	}
 	
 	.nopushdown
@@ -237,6 +273,10 @@
 	
 	.noshow{font-size:2px;visibility:hidden;float:right}
 
+	.superlong
+	{
+		height:300px;
+	}
 	.schema_table
 	{
 		display:table; 

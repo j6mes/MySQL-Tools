@@ -37,6 +37,18 @@ class table_model extends Model
 	
 	}
 	
+	function pinpoint()
+	{
+		$qry = "SELECT {$_POST['index']} FROM {$_POST['table']} WHERE {$_POST['indexer']} = \"{$_POST['request']}\"";
+		$stmt = $this->dbh->query($qry);
+		$error = $this->dbh->errorInfo();
+							
+		$ret = $stmt->fetchColumn();	
+	
+		die(htmlspecialchars(stripslashes($ret)));
+	}
+	
+	
 	function drop($schema,$table)
 	{
 

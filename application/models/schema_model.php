@@ -104,4 +104,24 @@ class Schema_Model extends Model
 		
 	}
 	
+	
+	function tabList($qry)
+	{
+	
+		$qry = "%{$qry}%";
+		$stmt= $this->parent->s->dbh->prepare("SELECT `TABLE_SCHEMA`,`TABLE_NAME` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` LIKE ? ORDER BY `TABLE_SCHEMA` ASC");
+		
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+		$stmt->execute(array($qry));
+		while ($col = $stmt->fetch())	
+		{
+			$tables[]=$col;
+			
+		}
+
+		return $tables;
+		
+	}
+	
 }

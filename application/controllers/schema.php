@@ -187,4 +187,29 @@ class schema extends Controller
 		
 	}
 
+
+	function filter()
+	{
+		//if(strlen($_POST['q'])>1)
+		if(true)
+		{
+		$this->model = new schema_model();
+		$this->model->parent= $this->parent;
+		
+		$schemata = $this->model->tabList(application::sanitize($_POST['q']));
+		
+		foreach($schemata as $item)
+		{
+			$data['result'][$item['TABLE_SCHEMA']][]= $item['TABLE_NAME'];
+		}
+		//$data['tables'] = $schemata;
+		}
+		else
+		{
+			$data['error']="Length!";	
+		}
+
+		echo json_encode($data);
+		
+	}
 }

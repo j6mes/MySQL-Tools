@@ -5,17 +5,18 @@ This software is realeased under GPLv3 license.
 
 Todo:
 
-	+ 	Filtering of schemas/views/tables
-	+	List icons of tables/view
-	+	Create / edit form
-	+	Display schema page
-	+ 	Display table page
-	+	Context menu fix
-	+ 	Code highlighting
-	+	Refresh schema list
-	+	Page titles
-	+	Query history
-	+	Backup restore
-	+	Modules
-	+	Inline editor
+b	+ 	Filtering of schemas/views/tables
+b	+	List icons of tables/view
+a	+	Create / edit form
+b	+	Display schema page
+c	+ 	Resize left column
+b	+ 	Display table page
+a	+	Context menu fix
+b	+ 	Code highlighting
+a	+	Refresh schema list
+a	+	Page titles
+a	+	Query history
+b	+	Backup restore
+e	+	Modules
+a	+	Inline editor
 	+	??? Search
