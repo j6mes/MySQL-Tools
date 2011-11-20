@@ -23,12 +23,12 @@ abstract class application
 		$s= "&para;";
 		if($special)
 		{
-			$s = "¶";
+			$s = "";
 		}
 		
 		
 		
-		$str = str_replace(array("\r\n","\n","\r"),"¶",$str);
+		$str = str_replace(array("\r\n","\n\r","\n","\r"),"",$str);
 		$len = 100;
 		
 		if ( strlen($str) <= $len ) 
@@ -53,7 +53,7 @@ abstract class application
 	
 		
 		
-	    return stripslashes(str_replace("¶",$s,substr($str, 0, $len) . '...')); 
+	    return stripslashes(str_replace("",$s,substr($str, 0, $len) . '...')); 
 	
 	}
 	

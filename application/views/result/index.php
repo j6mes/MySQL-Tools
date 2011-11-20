@@ -1,9 +1,9 @@
 
 <script type="text/javascript">
 	var editmode = 0;
-		var idxcol="";
-		var idxtab="";
-		var idxschem="";
+		var idxcol="<?=$arg['idxcol']?>";
+		var idxtab="<?=$arg['xtable']?>";
+		var idxschem="<?=$arg['schema']?>";
 		
 		window.onbeforeunload = function() 
 		{
@@ -19,8 +19,13 @@
 
 		bindRows();
 		$("#btn-discard").css("display","none");	
-		$("#btn-edit").click(function()
+		
+		$("#btn-discard").click(function()
 		{
+			if(!confirm("Are you sure you want to discard all unsaved data"))
+				{
+					return false;
+				}
 			if($("#btn-edit").html()=="Edit")
 			{
 				$("#btn-edit").html("Save");	
@@ -41,8 +46,56 @@
 				
 			}
 			
+			$.each($("[orig]"),function(idx, obj)
+			{
+				$(obj).find("pre").text($(obj).attr("orig"));
+				$(obj).removeClass("editedCell")
+			});
+		});
+		
+		$("#btn-edit").click(function()
+		{
+			if($("#btn-edit").html()=="Edit")
+			{
+				$("#btn-edit").html("Save");	
+				$("#btn-discard").css("display","inline");
+				editmode=1;
+				
+		
+				
+		
+			}
+			else
+			{
+				$("#btn-edit").html("Edit");
+				$("#btn-discard").css("display","none");
+				dCheckStore();
+				editmode=0;	
+				
+	
+				
+			}
+			
 			
 		});
+		
+		function dCheckStore()
+		{
+			$.each($("[orig]"),function(idx,obj)
+			{
+				
+				if($(obj).attr("col").length && $(obj).attr("row").length)
+				{
+					
+					$.post("/table/comit/<?=htmlentities($arg['schema'])?>",{table:idxtab,indexer:idxcol,index:$(obj).attr("col"),request:$(obj).attr("row"),newval:$(obj).first("pre").text()},function(data)
+					{
+						$(obj).removeClass("editedCell")
+						
+					});
+					event.stopPropagation();
+				}
+			});
+		}
 		
 	
 		$("#btn-exe").click(function()
@@ -54,6 +107,26 @@
 				{
 					return false;
 				}
+				
+				if($("#btn-edit").html()=="Edit")
+				{
+				
+					
+			
+					
+			
+				}
+				else
+				{
+					$("#btn-edit").html("Edit");
+					$("#btn-discard").css("display","none");
+					editmode=0;	
+					
+		
+					
+				}
+				
+			
 			
 			}
 			idxcol="";
@@ -163,7 +236,7 @@
 	});
 	var editing =0;
 	var pinpoint = "";
-	
+	var olddata = "";
 	function bindRows()
 	{
 		$("td.editzone").unbind('click');
@@ -180,6 +253,7 @@
 				pinpoint = "";
 				$.post("/table/pinpoint/<?=htmlentities($arg['schema'])?>",{table:idxtab,indexer:idxcol,index:$(this).parent().attr("col"),request:$(this).parent().attr("row")},function(data)
 				{
+					olddata = areaoid.find("pre").text();
 					pinpoint = data;
 					if(data.indexOf("\n",0)>0)
 					{
@@ -232,11 +306,12 @@
 			$("#tmpeditstr").parent().append("<pre></pre>");
 		
 			$("#tmpeditstr").parent().find("pre").text(text);
-	
-			if(text=pinpoint)
+			$("#tmpeditstr").parent().attr("orig",olddata)
+		
+			if(text!=pinpoint)
 			{
 		
-				$("#tmpeditstr").parent().css("background-color","#DDFFDD");
+				$("#tmpeditstr").parent().addClass("editedCell");
 				$("#tmpeditstr").parent().find("pre").attr("changed",1);
 			}
 			
@@ -281,8 +356,8 @@ EOD;
 		<tr>";
 	if(is_array($arg['results']))
 	{
-				
-		foreach($arg['results'][0] as $key=>$null)
+		$k = array_keys($arg['results']);
+		foreach($arg['results'][$k[0]] as $key=>$null)
 		{
 			echo "<th>{$key}</th>";
 			
@@ -290,16 +365,19 @@ EOD;
 		
 		
 		echo "</tr>";
-		foreach($arg['results'] as $row)
+		foreach($arg['results'] as $key=> $row)
 		{
 			
-			echo "<tr>";
+			echo "<tr row=\"{$key}\">";
+		
 			
-			
-			foreach($row as $key=> $col)
+			foreach($row as $colkey=> $col)
 			{
-				echo "<td col=\"{$key}\" class=\"editzone\"><pre>".application::short(htmlentities($col))."</pre></td>";
+			
+				echo "<td col=\"{$colkey}\" row=\"{$key}\" class=\"editzone\"><pre>".application::short(htmlentities($col),true)."</pre></td>";
 			}
+			
+			
 			echo "</tr>";
 			
 		}

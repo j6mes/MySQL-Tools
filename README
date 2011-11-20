@@ -5,13 +5,13 @@ This software is realeased under GPLv3 license.
 
 Todo:
 v0.00 --------------------------------------
-a	++	Inline editor
-		--	modal popout
-		--	cache
-		--  push
 a	++	Create / edit form
 a	+	Context menu fix
 a	+	Query history
+a	+	Inline editor
+		-- 	delete
+		--	preset (types: int/enum/varchar->LIMIT:?!)
+		--	modal popout
 
 b	+++	Code highlighting
 b	+	Display schema page

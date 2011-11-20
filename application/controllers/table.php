@@ -254,6 +254,32 @@ class table extends Controller
 			
 		}
 	}	
+	
+	function comit($schema)
+	{
+		$this->model= new table_model();
+		$this->model->parent = $this->parent;
+		try
+		{
+			
+		
+			if($this->model->schemaExists($schema))
+			{
+				if($this->model->tableExists($_POST['table']))
+				{
+					
+					$this->model->comit();
+				}
+			}
+			
+		}
+		catch(Exception $e)
+		{
+			//todo some kind of error handling here
+			echo $e->getMessage();
+			
+		}
+	}	
 
 	
 	function _run($schema,$table)

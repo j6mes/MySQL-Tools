@@ -39,13 +39,23 @@ class table_model extends Model
 	
 	function pinpoint()
 	{
-		$qry = "SELECT {$_POST['index']} FROM {$_POST['table']} WHERE {$_POST['indexer']} = \"{$_POST['request']}\"";
-		$stmt = $this->dbh->query($qry);
+		
+		$stmt = $this->dbh->prepare("SELECT {$_POST['index']} FROM {$_POST['table']} WHERE {$_POST['indexer']} = ?");
+		$res = $stmt->execute(array($_POST['request']));
 		$error = $this->dbh->errorInfo();
-							
 		$ret = $stmt->fetchColumn();	
 	
 		die(htmlspecialchars(stripslashes($ret)));
+	}
+	
+	function comit()
+	{
+		
+		$qry = "UPDATE {$_POST['table']} SET {$_POST['index']} = ? WHERE `{$_POST['indexer']}` = ? LIMIT 1";
+		$stmt = $this->dbh->prepare($qry);
+		$res = $stmt->execute(array($_POST['newval'],$_POST['request']));
+		$error = $this->dbh->errorInfo();
+
 	}
 	
 	

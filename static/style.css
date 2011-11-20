@@ -271,7 +271,10 @@
 	.sideleft li.message
 	{list-style-image: none;}
 	
-	
+	.editedCell
+	{
+		background-color:#DDFFDD;
+	}
 	.sideleft li a
 	{color:#333; text-decoration: none; font-size:11px; display:block; padding:5px}
 	
