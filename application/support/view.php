@@ -18,7 +18,14 @@ class View
 			$schemata = $tmpIndex->all(false);
 			//todo: list
 			//<?=$GLOBALS['schema'];
-			$childtables = $tmpIndex->view($GLOBALS['schema'],true);
+			if(isset($GLOBALS['schema']))
+			{
+				$childtables = $tmpIndex->view($GLOBALS['schema'],true);
+			}
+			else 
+			{
+				$childtables = array();	
+			}
 			
 			
 		}

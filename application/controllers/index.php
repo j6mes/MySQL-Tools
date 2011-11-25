@@ -14,12 +14,12 @@ class Index extends Controller
 	
 	function main()
 	{
-	
+		
 		$this->model = new Index_Model();
 		$this->model->parent = $this->parent;
 		if($this->parent->needsAuth())
 		{
-			$data['server']= "127.0.0.1";
+			$data['servers']= $GLOBALS['servers']->getServers(); 
 			if(isset($this->e))
 			{
 				$data['error']=$this->e;

@@ -1,22 +1,28 @@
-
+<script src="/static/codemirror/lib/codemirror.js"></script>
+<script src="/static/codemirror/mode/sparql/sparql.js"></script>
+<link rel="stylesheet" href="/static/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/static/codemirror/theme/default.css">
 <script type="text/javascript">
 	var editmode = 0;
 		var idxcol="<?=$arg['idxcol']?>";
 		var idxtab="<?=$arg['xtable']?>";
 		var idxschem="<?=$arg['schema']?>";
-		
+		   
+
+
+
+
 		window.onbeforeunload = function() 
 		{
 			if(editmode==1)
 			{
-  				return "You have unsaved changes on this page.\Leaving this page will lose ALL UNSAVED CHANGES.";
+  				return "You have unsaved changes on this page.\nLeaving this page will lose ALL UNSAVED CHANGES.";
   			}
-  			
-		}
+  		}
 
 	$(document).ready(function()
 	{
-
+		
 		bindRows();
 		$("#btn-discard").css("display","none");	
 		
@@ -132,7 +138,16 @@
 			idxcol="";
 			idxtab="";
 		
-			$.post("/result/execute/<?=htmlentities($arg['schema'])?>",{query: $("#qry").val()},function(data,status)
+			if($(".CodeMirror").length)
+			{
+	
+				var acq = editor.getValue();
+			}
+			else
+			{
+				var acq = $("#qry").val();
+			}
+			$.post("/result/execute/<?=htmlentities($arg['schema'])?>",{query: acq},function(data,status)
 			{
 				idxcol=data.idxcol;
 				idxtab=data.table;
@@ -332,6 +347,23 @@
 <textarea id="qry" wrap="off" name="query"><?=htmlentities($arg['query'])?></textarea>
 </form>
 </div>
+
+<script>
+	
+var editor = CodeMirror.fromTextArea(document.getElementById("qry"), {
+
+  mode: "application/x-sparql-query",
+
+  lineNumbers: true
+
+});
+
+var hlLine = editor.setLineClass(0, "activeline");
+
+
+</script>
+
+
 <?php
 
 $arg['toolbar'] = <<<EOD

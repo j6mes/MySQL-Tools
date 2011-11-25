@@ -16,7 +16,7 @@ class core
 		$controller = $url[0]; 
 		
 		//Remove any dots, from URL controller.php
-		list($controller,$null) = explode(".",$controller);
+		@list($controller,$null) = explode(".",$controller);
 		
 		//Unset the temporary variable
 		unset($null);
@@ -26,7 +26,7 @@ class core
 
 		application::load("application/controllers/index.php");		
 				
-				
+		$GLOBALS['servers']= new serverConfig();		
 		//start/resume a session
 		$this->s = new session();
 		$this->dbh =& $this->s->dbh;
@@ -83,12 +83,12 @@ class core
 			
 			try
 			{
-				if(strlen($url[2]))
+				if(isset($url[2]))
 				{
 					$url[1] = str_replace("__","",$url[1]);
 					$controller->{$url[1]}($url[2]);	
 				}
-				elseif(strlen($url[1]))
+				elseif(isset($url[1]))
 				{
 					$url[1] = str_replace("__","",$url[1]);
 					$controller->{$url[1]}();	
@@ -110,7 +110,7 @@ class core
 			}
 			catch(Exception $e)
 			{
-				echo "Controller borked";
+				echo "Controller borked". $e->getMessage();
 			}
 		
 	}

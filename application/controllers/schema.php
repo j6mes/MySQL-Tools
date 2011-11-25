@@ -55,7 +55,7 @@ class schema extends Controller
 				$this->view->render("schema",$data);
 			}
 			else {
-				return $data['tables'];
+				return @$data['tables'];
 			}
 		}
 		
@@ -179,7 +179,7 @@ class schema extends Controller
 		
 		if($render==true)
 		{
-			if($_POST['ajax']==1)
+			if(@$_POST['ajax']==1)
 			{
 				die(json_encode($data));
 			}

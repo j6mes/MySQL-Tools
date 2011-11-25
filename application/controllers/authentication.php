@@ -10,7 +10,12 @@ class authentication
 		{
 			if(is_array($_POST))
 			{
-			
+				
+				$tmpservers = $GLOBALS['servers']->getServers();
+				if(!strlen($tmpservers[intval($_POST['server'])]))
+				{
+					throw new Exception("Error Processing Request", 1);
+				}
 				
 				if(strlen($_POST['username'])<1)
 				{
@@ -26,6 +31,7 @@ class authentication
 				
 				$this->username = $_POST['username'];
 				$this->password = $_POST['password'];
+				$this->server = $tmpservers[intval($_POST['server'])];
 			}
 		
 			
@@ -43,7 +49,7 @@ class authentication
 		try
 		{
 			
-			$this->model = new Authentication_Model($this->username, $this->password);
+			$this->model = new Authentication_Model($this->server, $this->username, $this->password);
 		
 		}
 		catch (Exception $e)

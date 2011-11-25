@@ -3,24 +3,35 @@ MySQL Tools
 This software is realeased under GPLv3 license.
 
 
-Todo:
-v0.00 --------------------------------------
+Roadmap:
+v0.0.0 -------------------------------------- By end of November
+a  	+++ Create Schema
+		-view
+		-response
 a	++	Create / edit form
+a	++	Query history
+
 a	+	Context menu fix
-a	+	Query history
+
 a	+	Inline editor
 		-- 	delete
 		--	preset (types: int/enum/varchar->LIMIT:?!)
 		--	modal popout
+		--	revert
 
-b	+++	Code highlighting
 b	+	Display schema page
 b	+ 	Describe table page
 
 
 
-v0.01 --------------------------------------
-d	+	Backup restore
+v0.0.1 -------------------------------------- By end of December
+c 	++	Export Dataset
+c 	++	Search
+c 	+-	Transaction
 
+v0.0.2 -------------------------------------- By end of Jan
+d	+	Backup restore
 e	?	Modules
 e	??? Search
+
+v1.0.0 -------------------------------------- Main Launch in feb???

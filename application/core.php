@@ -66,6 +66,7 @@ class core
 		catch(Exception $e)
 		{
 			echo "Controller borked";
+			echo $e->getMessage();
 		}
 	}
 }

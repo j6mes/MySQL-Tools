@@ -27,18 +27,18 @@ class Schema_Model extends Model
 	{
 	
 		$stmt = $this->parent->s->dbh->query("
-		SELECT `SCHEMA_NAME`, COUNT(`TABLE_NAME`) as CC,`TABLE_TYPE`
-		FROM `information_schema`.`SCHEMATA`
-		LEFT JOIN `information_schema`.`TABLES` ON `TABLES`.`TABLE_SCHEMA`=`SCHEMATA`.`SCHEMA_NAME`
-		GROUP BY `TABLES`.`TABLE_SCHEMA`");
+		
+		SELECT `SCHEMA_NAME`,COUNT(`TABLE_NAME`) as CC,SUM( data_length + index_length) as size 
+		FROM `information_schema`.`SCHEMATA` LEFT JOIN `information_schema`.`TABLES` ON `TABLES`.`TABLE_SCHEMA` = `SCHEMATA`.`SCHEMA_NAME` GROUP BY `SCHEMA_NAME`");
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		while ($schema = $stmt->fetch())
 		{
-			$schemata[]=array("name"=>$schema['SCHEMA_NAME'],"count"=>$schema['CC'],"type"=>$schema['TABLE_TYPE']);
+			$schemata[]=array("name"=>$schema['SCHEMA_NAME'],"count"=>$schema['CC'],"size"=>$schema['size']);
 		}
 		
 		return $schemata;
 	}
+	
 	
 	
 	function drop($schema)
@@ -88,6 +88,7 @@ class Schema_Model extends Model
 	
 	function getTables($schema)
 	{
+		
 	
 		$stmt = $this->dbh->prepare("
 		SELECT * FROM information_schema.`COLUMNS` INNER JOIN information_schema.`TABLES` ON `TABLES`.`TABLE_NAME` = `COLUMNS`.`TABLE_NAME` WHERE `TABLES`.TABLE_SCHEMA=? AND `COLUMNS`.`TABLE_SCHEMA` = ? ORDER BY ORDINAL_POSITION ASC");
@@ -100,7 +101,7 @@ class Schema_Model extends Model
 			$tables[$col['TABLE_NAME']][]=$col;
 		}
 
-		return $tables;
+		return @$tables;
 		
 	}
 	

@@ -22,7 +22,7 @@ class result extends Controller
 			 * 
 			 */
 			$data = $this->run2($schema,$query);
-			$data['status']= $this->dbh->rowCount;
+			//$data['status']= $this->dbh->rowCount;
 			$data['query']=$query;
 			$data['schema']= $schema;
 			$data['title']= "View Resultset ({$schema})";

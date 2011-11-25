@@ -16,13 +16,13 @@
 		
 		try
 		{
-			$dbh = new PDO("mysql:host=localhost;dbname={$schema}", $vars['username'], $vars['password']);
+			$dbh = new PDO("mysql:host={$vars['server']};dbname={$schema}", $vars['username'], $vars['password']);
 			$this->dbh =$dbh;
 			
 		}
 		catch(PDOException $e)
 		{
-			return $e->getMessage();
+			throw new Exception($e->getMessage());
 		}
 		
 		$GLOBALS['schema']= $schema;

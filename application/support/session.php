@@ -13,10 +13,10 @@ class session
 		try
 		{
 			
-			if(strlen($_SESSION['username']) and strlen($_SESSION['password']))
+			if(isset($_SESSION['username']) and isset($_SESSION['password']))
 			{
 			
-				$dbh = new PDO("mysql:host=localhost;", $_SESSION['username'], $_SESSION['password']);
+				$dbh = new PDO("mysql:host={$_SESSION['server']};", $_SESSION['username'], $_SESSION['password']);
 				$this->dbh =$dbh;
 				return 1;
 			}
@@ -32,7 +32,7 @@ class session
 	
 	function vars()
 	{
-		return array("username"=>$_SESSION['username'],"password"=>$_SESSION['password']);
+		return array("server"=>$_SESSION['server'],"username"=>$_SESSION['username'],"password"=>$_SESSION['password']);
 	}
 	
 }

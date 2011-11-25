@@ -1,6 +1,0 @@
-<?php
-
-
-$server = ""; //Server address
-
-

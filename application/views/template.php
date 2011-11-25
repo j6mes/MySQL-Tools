@@ -28,27 +28,47 @@
 		$dblist = "<ul>";
 		
 
-		
+	
 		foreach($schemata as $schema)
 		{
-			if($schema['name']==$GLOBALS['schema'])
-			{	
-				$schema['children'] .= "<div id=\"div-{$GLOBALS['schema']}\"><ul class=\"tables\" id=\"child-{$GLOBALS['schema']}\">";
-				foreach($childtables as $table=>$tabledata)
-				{
-					$xview = "";
-			
-					if($tabledata[0]['TABLE_TYPE']=="VIEW")
-					{
-						$xview = "ldb_view";
-					}
-					$schema['children'] .= "<li class=\"jQtable table {$xview}\"><a id=\"xtable-{$GLOBALS['schema']}.{$tabledata[0]['TABLE_NAME']}\" href=\"/table/view/{$GLOBALS['schema']}.{$table}\">{$table}</li>";
-				}
-				$schema['children'] .= "</ul>";
+			if(!isset($schema['children']))
+			{
+				$schema['children'] = "";
 			}
+			
+			if($schema['name']==@$GLOBALS['schema'])
+			{
+				if(sizeof($childtables))
+				{
+						
+					$schema['children'] .= "<div id=\"div-{$GLOBALS['schema']}\"><ul class=\"tables\" id=\"child-{$GLOBALS['schema']}\">";
+				
+						
+					
+					foreach($childtables as $table=>$tabledata)
+					{
+						$xview = "";
+				
+						if($tabledata[0]['TABLE_TYPE']=="VIEW")
+						{
+							$xview = "ldb_view";
+						}
+						$schema['children'] .= "<li class=\"jQtable table {$xview}\"><a id=\"xtable-{$GLOBALS['schema']}.{$tabledata[0]['TABLE_NAME']}\" href=\"/table/view/{$GLOBALS['schema']}.{$table}\">{$table}</a></li>";
+					}
+					$schema['children'] .= "</ul>";
+				
+				}
+				
+			}
+			
 			$dblist .= "<li id=\"li-{$schema['name']}\" class=\"jQschema schema\"><a id=\"schema-{$schema['name']}\" href=\"#/schema/view/{$schema['name']}\">{$schema['name']}</a>{$schema['children']}</li>";
 		}
 		$dblist .= "</ul>";
+	}
+
+	if(!isset($arg['title']))
+	{
+		$arg['title']="";
 	}
 			
 

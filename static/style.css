@@ -11,7 +11,7 @@
 	 border: 1px solid #CCC; margin:100px auto;
 	}
 	
-	#authform input[type='text'],#authform input[type='password']
+	#authform input[type='text'],#authform input[type='password'], #authform select
 	{width:200px; margin-bottom:15px}
 	
 	
@@ -31,6 +31,45 @@
 		display:inline; margin-right:10px; padding:10px 10px 10px 40px; cursor:pointer;   line-height: 48px; border:1px solid #ddd; border-radius: 10px; -moz-border-radius: 10px; 
 	}
 	
+	.schema-li
+	{
+		padding:2px;
+		margin:10px;
+		display:block;
+		background-color:#F0F0F0;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
+	
+	.schema-li a
+	{
+		margin-left:10px;
+		display:block;
+		color:#333;
+		padding:3px;
+		text-decoration: none;
+		font-size:20px;
+	}
+	
+	.schema-li a:hover
+	{
+		text-decoration: underline;
+	}
+	.schema-li span
+	{
+		margin-left:13px;
+		width:100px;
+		display:inline-block;
+		margin-right:20px;
+		margin-bottom:5px;
+		
+	}
+	
+	.schema-li:not(a)
+	{
+		font-size:11px;
+		color:#999;
+	}	
 	#btn-back
 	{
 		background: #FCFCFC url('/static/icons/left.png') no-repeat .4em 50%;
@@ -115,8 +154,16 @@
 	{
 		position:absolute; top:32px; bottom:0; left:0; right:0;
 	}
+	
+	.modifier
+	{
+		padding-left:10px;
+		padding-right:15px;
+		overflow-y:auto;
+		height:100%;
+	}
 
-	.sideright{ left:182px; right:0px; overflow-x:auto; overflow-y:hidden;}
+	.sideright{left:182px; padding-left:10px; right:0px; overflow-x:auto; overflow-y:hidden;}
 	
 	.sideleft
 	{left:0; width:172px; padding:4px; padding-right:0; bottom:0; cursor:w-resize; background: #ccc;overflow-x:hidden; overflow-y: hidden;  border-right:1px #bbb solid;}
@@ -129,6 +176,24 @@
 	.noset
 	{
 		width:250px; background:#EEE; padding:20px; margin:100px auto 0 auto; border:1px solid #333; text-align: center; font-weight: bold;
+	}
+	
+	.statcontainer
+	{
+		background-color:#FFFFFF;
+		border:#999999 solid 1px;
+		padding:4px;
+		
+	}
+	
+	.statbox
+	{
+		color:#FFFFFF;
+		background-color:#000066;
+		padding:5px;
+		font-size:11px;
+		height:90px;
+		
 	}
  
 /* Z-index of #mask must lower than #boxes .window */
@@ -144,7 +209,33 @@
   display:none;
  
 }
-   
+
+.schemata_drum
+{
+	background:url("/static/icons/dbdrum.png") no-repeat;
+}
+
+.schemata_schemalist
+{
+	margin-top:20px;
+	margin-left:140px;
+	background:#FFFFFF;
+	padding-left:15px;
+	border:1px solid #999;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	padding-bottom:15px;
+}
+
+.schemata_schemalist ul 
+{
+	margin-left:0; padding-left:0;
+}
+  
+.schemata_schemalist li 
+{
+	margin-left:0; padding-left:0; list-style: none; 
+} 
 #boxes .window {
   position:absolute;
   width:440px;
