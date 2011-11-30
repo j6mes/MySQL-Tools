@@ -400,14 +400,14 @@
 	{
 		display:table-row;
 	
-
+		padding-left:10px;
 	}
 	
 	.edit_col_head
 	{
 		display:table-row;
 	
-
+		width:100%;
 	}
 	
 	.edit_col_head > .edit_col_field
@@ -426,17 +426,93 @@
 	.edit_col_field
 	{
 		display:table-cell;
-		padding-right:20px;
+		padding-right:10px;
+		padding-left:10px;
 		padding-bottom:2px; padding-top:4px;
 		border-bottom:1px solid #ddd;
 
 	}
 	
+	.col_not_unsigned
+	{
+		background:url(/static/icons/signed.png);
+	}
+	
+	.col_is_unsigned
+	{
+		background:url(/static/icons/unsigned.png);
+	}
+	
+	.col_unsigned
+	{
+		float:left;
+		height:15px;
+		width:20px;
+		margin-right:2px;
+	}
+	
+	.col_is_notnull
+	{
+		background:url(/static/icons/notnn.png);
+	}
+	
+	.col_not_notnull
+	{
+		background:url(/static/icons/nn.png);
+	}
+	
+	.col_null
+	{
+		float:left;
+		height:15px;
+		width:20px;
+		margin-right:2px;
+	}
+	
+	
+	.col_is_zf
+	{
+		background:url(/static/icons/zf.png);
+	}
+	
+	.col_not_zf
+	{
+		background:url(/static/icons/notzf.png);
+	}
+	
+	.col_zf
+	{
+		float:left;
+		height:15px;
+		width:20px;
+		margin-right:2px;
+	}
+	
+	.col_not_auto
+	{
+		background:url(/static/icons/notai.png);
+	}
+	
+	.col_is_auto
+	{
+		background:url(/static/icons/ai.png);
+	}
+	
+	.col_auto
+	{
+		float:left;
+		height:15px;
+		width:20px;
+	}
+	
+	
+	
+	
 	.edit_cols
 	{
 		margin-top:10px;
 		border:1px solid #AAA;
-		padding:10px;
+		padding:0px;
 		background:#FAFAFA;
 		color:#333;
 		height:280px; overflow-x: auto;

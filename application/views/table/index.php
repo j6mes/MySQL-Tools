@@ -105,13 +105,16 @@ else
 			Type
 		</div>
 		<div class="edit_col_field">
+			Length
+		</div>
+		<div class="edit_col_field">
 			Nulls
 		</div>
 		<div class="edit_col_field">
-			Default
+			Extra
 		</div>
 		<div class="edit_col_field">
-			Extra
+			Default Value
 		</div>
 		
 		
@@ -124,7 +127,7 @@ else
 	
 	if(@sizeof($arg['columns'])):
 	foreach($arg['columns'] as $idx=>$column):
-	
+
 	if($column['Key']=="PRI")
 	{
 		$pribit = "<img src=\"/static/icons/pri.png\">";
@@ -133,24 +136,106 @@ else
 	{
 		$pribit = "<img src=\"/static/icons/notpri.png\">";
 	}
-	$column['Type'];
+	
+
+	
+	if(is_int(strpos($column['Type'],"unsigned")))
+	{
+		$column['Unsigned']=true;
+	}
+	
+	if(is_int(strpos($column['Extra'],"zerofill")))
+	{
+		$column['Zerofill']=true;
+	}
+	
+	if(is_int(strpos($column['Extra'],"auto_increment")))
+	{
+		$column['Auto']=true;
+	}
+		@list($type,$null) = explode("(",$column['Type']);
+
+	
+	if(strlen($null))
+	{
+	
+		list($length,$null) = explode(")",$null);
+			
+	}
+	
 	$types=application::getDataTypes();
+	 
+
+	$extrabit="";
+	if(in_array("unsigned",$types[strtoupper($type)]))
+	{
+		
+		if(isset($column['Unsigned']))
+		{
+			@$extrabit.= "<div title=\"Unsigned Number\" class=\"col_unsigned col_is_unsigned\"></div>";
+		}
+		else
+		{
+			@$extrabit.= "<div title=\"Signed Number\" class=\"col_unsigned col_not_unsigned\"></div>";
+		}
+	}
+	
+	if(in_array("zerofill",$types[strtoupper($type)]))
+	{
+		
+		if(isset($column['Zerofill']))
+		{
+			@$extrabit.= "<div title=\"Zerofill\" class=\"col_zf col_is_zf\"></div>";
+		}
+		else
+		{
+			@$extrabit.= "<div title=\"Don't Zerofill\" class=\"col_zf col_not_zf\"></div>";
+		}
+	}
+	
+	
+	if(in_array("auto_increment",$types[strtoupper($type)]))
+	{
+		
+		if(isset($column['Auto']))
+		{
+			@$extrabit.= "<div title=\"Auto Increment\" class=\"col_auto col_is_auto\"></div>";
+		}
+		else
+		{
+			@$extrabit.= "<div title=\"Don't Increment\" class=\"col_auto col_not_auto\"></div>";
+		}
+	}
+	
+	$nullbit = "";
+	if($column['Null']=="YES")
+	{
+		$nullbit = "<div title=\"Allow Null\"  class=\"col_null col_is_notnull\"></div>";
+	}
+	else 
+	{
+		$nullbit = "<div title=\"Not Null\"  class=\"col_null col_not_notnull\"></div>";
+	}
 	
 	?>
 		
 	<div class="edit_col">
 		<div class="edit_col_field edit_pk"><?=$pribit?></div>
 		<div class="edit_col_field edit_text"><?=$column['Field']?></div>
-		<div class="edit_col_field edit_type"><?=$types?></div>
-		<div class="edit_col_field edit_check"><?=$column['Null']?></div>
+		<div class="edit_col_field edit_type"><?=$type?></div>
+		<div class="edit_col_field edit_length"><?=$length?></div>
+		<div class="edit_col_field edit_check"><?=$nullbit?></div>
+		<div class="edit_col_field edit_text"><?=$extrabit?></div>
 		<div class="edit_col_field edit_text"><?=$column['Default']?></div>
-		<div class="edit_col_field edit_text"><?=$column['Extra']?></div>
+		
 		
 		
 	</div>	
 		
 		
-	<?php 	endforeach;
+	<?php 	
+		
+			endforeach;
 			endif; ?>
 
 		

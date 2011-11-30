@@ -39,17 +39,17 @@
 	*	modal popout
 	*	revert
 * Describe table page
+* Relative directory support
 
 
-
-v0.1.0 - By end of December
+###v0.1.0 - By end of December
 * Export Dataset
 * Search
 * Transaction Locking
 
-v0.2.0 - By end of January
+###v0.2.0 - By end of January
 * Backup restore
 * Modules
 
-v1.0.0 - February?
-????
+###v1.0.0 - February?
+* ????
