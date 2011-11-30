@@ -5,12 +5,7 @@ This software is realeased under GPLv3 license.
 
 Roadmap:
 v0.0.0 -------------------------------------- By end of November
-a  	+++ Create Schema
-		-view
-		-response
 a	++	Create / edit form
-a	++	Query history
-
 a	+	Context menu fix
 
 a	+	Inline editor
@@ -19,7 +14,6 @@ a	+	Inline editor
 		--	modal popout
 		--	revert
 
-b	+	Display schema page
 b	+ 	Describe table page
 
 

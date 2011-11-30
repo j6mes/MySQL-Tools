@@ -402,12 +402,15 @@
 	        	$(id).html(data);
 	        });
 	        
-	        $(".closebutton").un("click");
+	        $(".closebutton").unbind("click");
 	        $(".closebutton").click(function()
 	        {
 	        	$('#mask').fadeOut(200);
 				$('.window').fadeOut(100);
+				
 	       	});
+	       	
+	       	
 	       	
 		}
 

@@ -18,6 +18,7 @@ class session
 			
 				$dbh = new PDO("mysql:host={$_SESSION['server']};", $_SESSION['username'], $_SESSION['password']);
 				$this->dbh =$dbh;
+			
 				return 1;
 			}
 		}
@@ -25,6 +26,9 @@ class session
 		{
 		
 		}
+		
+		
+		
 		return 0;
 		
 	}

@@ -105,10 +105,31 @@ class Schema_Model extends Model
 		
 	}
 	
-	
+	function create($newSchema)
+	{
+		$newSchema = application::sanitize($newSchema);
+		$stmt= $this->parent->s->dbh->query("CREATE SCHEMA {$newSchema}");
+		
+
+		
+		$einf = $this->parent->s->dbh->errorInfo();
+		if($einf[0]=="00000")
+		{
+			return 1;
+		}
+		else
+		{
+			return $einf;
+		}
+		
+			
+		
+
+	}
 	function tabList($qry)
 	{
 	
+		$tables=array();
 		$qry = "%{$qry}%";
 		$stmt= $this->parent->s->dbh->prepare("SELECT `TABLE_SCHEMA`,`TABLE_NAME`,`TABLE_TYPE` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` LIKE ? ORDER BY `TABLE_SCHEMA` ASC");
 		

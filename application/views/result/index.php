@@ -3,11 +3,11 @@
 <link rel="stylesheet" href="/static/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="/static/codemirror/theme/default.css">
 <script type="text/javascript">
-	var editmode = 0;
+		var editmode = 0;
 		var idxcol="<?=$arg['idxcol']?>";
 		var idxtab="<?=$arg['xtable']?>";
 		var idxschem="<?=$arg['schema']?>";
-		   
+		var editable = <?=$arg['edit']?>;		   
 
 
 
@@ -25,7 +25,19 @@
 		
 		bindRows();
 		$("#btn-discard").css("display","none");	
-		
+		$(".toolbar_elem").click(function(e)
+		{
+			e.stopPropagation();
+			e.preventDefault();
+			if($.browser.mozilla){//Firefox
+                $(this).css('MozUserSelect','none');
+            }else if($.browser.msie){//IE
+                $(this).bind('selectstart',function(){return false;});
+            }else{//Opera, etc.
+                $(this).mousedown(function(){return false;});
+            }
+
+		});
 		$("#btn-discard").click(function()
 		{
 			if(!confirm("Are you sure you want to discard all unsaved data"))
@@ -34,9 +46,10 @@
 				}
 			if($("#btn-edit").html()=="Edit")
 			{
-				$("#btn-edit").html("Save");	
-				$("#btn-discard").css("display","inline");
-				editmode=1;
+				
+					$("#btn-edit").html("Save");	
+					$("#btn-discard").css("display","inline");
+					editmode=1;
 				
 		
 				
@@ -59,27 +72,67 @@
 			});
 		});
 		
+		var loc = 1;
+		$("#btn-back").click(function()
+		{
+			$.get("/internal/get/"+loc,{},function(data)
+			{
+				++loc;
+				if(data.length>2)
+				{
+					
+				
+					editor.setValue(data);		
+				}
+				else
+				{
+					--loc;
+				}
+			});
+			
+		});
+		
+		$("#btn-fwd").click(function()
+		{
+			--loc;
+			$.get("/internal/get/"+loc,{},function(data)
+			{
+				if(data.length>2)
+				{
+					
+					editor.setValue(data);		
+				}
+				else
+				{
+					++loc;
+				}
+			});
+			
+		});
 		$("#btn-edit").click(function()
 		{
-			if($("#btn-edit").html()=="Edit")
+			if(editable==1)
 			{
-				$("#btn-edit").html("Save");	
-				$("#btn-discard").css("display","inline");
-				editmode=1;
-				
+				if($("#btn-edit").html()=="Edit")
+				{
+					$("#btn-edit").html("Save");	
+					$("#btn-discard").css("display","inline");
+					editmode=1;
+					
+			
+					
+			
+				}
+				else
+				{
+					$("#btn-edit").html("Edit");
+					$("#btn-discard").css("display","none");
+					dCheckStore();
+					editmode=0;	
+					
 		
-				
-		
-			}
-			else
-			{
-				$("#btn-edit").html("Edit");
-				$("#btn-discard").css("display","none");
-				dCheckStore();
-				editmode=0;	
-				
-	
-				
+					
+				}
 			}
 			
 			
@@ -106,6 +159,10 @@
 	
 		$("#btn-exe").click(function()
 		{
+			if($("#btn-exe").html()=="Loading")
+			{
+				return false;
+			}
 			if(editmode==1)
 			{
 				
@@ -135,6 +192,7 @@
 			
 			
 			}
+			$("#btn-exe").html("Loading");
 			idxcol="";
 			idxtab="";
 		
@@ -149,13 +207,17 @@
 			}
 			$.post("/result/execute/<?=htmlentities($arg['schema'])?>",{query: acq},function(data,status)
 			{
+				$("#btn-exe").html("Execute");
 				idxcol=data.idxcol;
 				idxtab=data.table;
 				idxschem=data.schema;
 				$("table#resulttable").remove();
 				$(".resultset").html("<table id=\"resulttable\"></table>");
-				
-				
+				editable=0;
+				if(data.edit==1)
+				{
+					editable=1;
+				}
 				if(data.result!==undefined)
 				{
 					
@@ -369,13 +431,12 @@ var hlLine = editor.setLineClass(0, "activeline");
 $arg['toolbar'] = <<<EOD
 <div class="mstoolbar">
 	<ul>
-		<li id="btn-back">Back</li>
-		<li id="btn-fwd">Forward</li>
-		<li id="btn-exe">Execute</li>
+		<li class="toolbar_elem" id="btn-back">Back</li>
+		<li class="toolbar_elem" id="btn-fwd">Forward</li>
+		<li class="toolbar_elem" id="btn-exe">Execute</li>
 		
-		<li id="btn-export">Export</li>
-		<li id="btn-edit">Edit</li>
-		<li id="btn-discard">Discard</li>
+		<li class="toolbar_elem" id="btn-edit">Edit</li>
+		<li class="toolbar_elem" id="btn-discard">Discard</li>
 	</ul>
 </div>
 EOD;

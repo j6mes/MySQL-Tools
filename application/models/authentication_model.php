@@ -17,7 +17,7 @@ class Authentication_Model extends Model
 			
 	    }
 		
-		
+		application::logLogin($server, $_SERVER['REMOTE_ADDR'],$username,1);
 		unset ($dbh);
 		$_SESSION['username'] = $username;
 		$_SESSION['password'] = $password;

@@ -79,6 +79,26 @@ class schema extends Controller
 			$arg['ajax']=$ajax;
 		}
 		
+		if(isset($_POST['create']))
+		{
+			
+			$this->model = new schema_model();
+			
+			$this->model->parent= $this->parent;
+			
+			$result= $this->model->create($_POST['name']);
+			
+			if($result===1)
+			{
+				$this->view->render("created",$arg);
+			}
+			else
+			{
+				$this->view->render("createerror",array("ajax"=>$ajax,"result"=>$result));	
+			}
+			die;
+			
+		}
 		$this->view->render("create",$arg);
 		
 		

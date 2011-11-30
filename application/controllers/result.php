@@ -52,7 +52,7 @@ class result extends Controller
 		$this->model->schemaExists($schema);
 		
 		$query = $_POST['query'];
-
+		application::logQuery($_SESSION['server'],$_SESSION['username'],htmlentities($_POST['query']));
 		try
 		{
 			$stmt = $this->model->dbh->query(stripslashes($query));
@@ -149,7 +149,7 @@ class result extends Controller
 					
 					
 				}
-				$rows[$tmprow[$indexk]]=$tmprow;
+				@$rows[$tmprow[$indexk]]=$tmprow;
 				
 			}
 		
@@ -168,7 +168,7 @@ class result extends Controller
 					}
 				}
 			}
-			$tmpArr = array("edit"=>$edit,"table"=>$tdata[2][0],"idxcol"=>$indexk, "cols"=>$cols, "desc"=>$ck, "status"=>$rc,"result"=>$rows);
+			$tmpArr = array("edit"=>$edit,"table"=>$tdata[2][0],"idxcol"=>@$indexk, "cols"=>$cols, "desc"=>$ck, "status"=>$rc,"result"=>$rows);
 			echo json_encode($tmpArr);
 		}
 	}
@@ -264,6 +264,8 @@ class result extends Controller
 					{
 						$indexk = $col['Field'];
 					}
+					
+						
 				}
 			}
 			
@@ -283,11 +285,11 @@ class result extends Controller
 					
 					
 				}
-				$rows[$tmprow[$indexk]]=$tmprow;
+				@$rows[$tmprow[$indexk]]=$tmprow;
 				
 			}
 		
-			if(sizeof($rows))
+			if(sizeof(@$rows))
 			{
 				$k = array_keys($rows);
 				
@@ -302,7 +304,7 @@ class result extends Controller
 					}
 				}
 			}
-			$tmpArr = array("edit"=>$edit,"xtable"=>$tdata[2][0],"idxcol"=>$indexk, "cols"=>$cols, "desc"=>$ck, "status"=>$rc,"results"=>$rows);
+			$tmpArr = array("edit"=>$edit,"xtable"=>$tdata[2][0],"idxcol"=>@$indexk, "cols"=>$cols, "desc"=>$ck, "status"=>$rc,"results"=>@$rows);
 
 			return($tmpArr);
 		}

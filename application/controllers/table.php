@@ -207,9 +207,9 @@ class table extends Controller
 			try
 			{
 				
-				if($this->model->schemaExists($schema))
+				if($this->model->schemaExists($table))
 				{
-					$arg['schema']=$schema;
+					$arg['schema']=$table;
 					
 					$this->view->render("table",$arg);
 						
@@ -263,7 +263,7 @@ class table extends Controller
 		{
 			
 		
-			if($this->model->schemaExists($schema))
+			if($this->model->schemaExists($table))
 			{
 				if($this->model->tableExists($_POST['table']))
 				{

@@ -3,10 +3,19 @@
 	<script>
 
 		
+		
+		
 		$(document).ready(function()
 		{
 			init();
 			
+			$("#t_name").blur(function()
+			{
+				if($("#t_name").val())
+				{
+					
+				}
+			});
 			
 			$(".edit_add").click(function()
 			{
@@ -58,9 +67,9 @@
 				if($(this).html()=="")
 				{
 					
-					$(this).html("PRI");
+					$(this).html("<img src=\"/static/famfamfam/key.png\" />");
 				}
-				else if($(this).html()=="PRI")
+				else if($(this).html()=="<img src=\"/static/famfamfam/key.png\" />")
 				{
 					$(this).html("");
 				}
@@ -68,11 +77,9 @@
 		}
 		
 		
-		
-		
 	</script>
 <?
-if (strlen($arg['table']))
+if (strlen(@$arg['table']))
 {
 	echo "<h1>Edit Table: {$arg['table']}</h1>";
 }
@@ -81,13 +88,14 @@ else
 	echo "<h1>Create New Table</h1>";
 }
 ?>
-<div class="edit_top">Table Name: <input type="text" name="t_name" value="<?=$arg['table']?>" />
-	Database: <select><option>Derpus herpus</option></select> Comment: <input type="text" name="t_comment" value="<?=$arg['info']['TABLE_COMMENT']?>"/></div>
+<div class="edit_top">Table Name: <input type="text" id="t_name" name="t_name" value="<?=@$arg['table']?>" />
+	Database: <select><option><?=$arg['schema']?></option></select> Comment: <input type="text" name="t_comment" value="<?=@$arg['info']['TABLE_COMMENT']?>"/></div>
 
 <div class="edit_cols">
 	
 	<div class="edit_col_head">
 		<div class="edit_col_field">
+			
 			Key
 		</div>
 		<div class="edit_col_field">
@@ -112,13 +120,28 @@ else
 		
 		
 		
-	<?php if(sizeof($arg['columns'])):
-	foreach($arg['columns'] as $idx=>$column):?>
+	<?php 
+	
+	if(@sizeof($arg['columns'])):
+	foreach($arg['columns'] as $idx=>$column):
+	
+	if($column['Key']=="PRI")
+	{
+		$pribit = "<img src=\"/static/icons/pri.png\">";
+	}
+	else
+	{
+		$pribit = "<img src=\"/static/icons/notpri.png\">";
+	}
+	$column['Type'];
+	$types=application::getDataTypes();
+	
+	?>
 		
 	<div class="edit_col">
-		<div class="edit_col_field edit_pk"><?=$column['Key']?></div>
+		<div class="edit_col_field edit_pk"><?=$pribit?></div>
 		<div class="edit_col_field edit_text"><?=$column['Field']?></div>
-		<div class="edit_col_field edit_text"><?=$column['Type']?></div>
+		<div class="edit_col_field edit_type"><?=$types?></div>
 		<div class="edit_col_field edit_check"><?=$column['Null']?></div>
 		<div class="edit_col_field edit_text"><?=$column['Default']?></div>
 		<div class="edit_col_field edit_text"><?=$column['Extra']?></div>

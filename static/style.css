@@ -212,13 +212,13 @@
 
 .schemata_drum
 {
-	background:url("/static/icons/dbdrum.png") no-repeat;
+	/*background:url("/static/icons/dbdrum.png") no-repeat;*/
 }
 
 .schemata_schemalist
 {
 	margin-top:20px;
-	margin-left:140px;
+
 	background:#FFFFFF;
 	padding-left:15px;
 	border:1px solid #999;
@@ -394,6 +394,7 @@
 	{
 		margin-top:5px;
 		margin-left:10px;
+		cursor: pointer;
 	}
 	.edit_col
 	{
