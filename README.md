@@ -31,15 +31,14 @@
 
 ##Roadmap:
 ###v0.0.0 - By end of November
-* Create / edit form
-* Context menu fix
-* Inline editor
-	*	delete
-	*	preset (types: int/enum/varchar->LIMIT:?!)
-	*	modal popout
-	*	revert
-* Describe table page
-* Relative directory support
+* A Create / edit form
+* A Relative directory support
+* B Describe table page
+* B Inline editor
+	*	A delete
+	*	C preset (types: int/enum/varchar->LIMIT:?!)
+	*	B modal popout
+* C Context menu fix
 
 
 ###v0.1.0 - By end of December

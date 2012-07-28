@@ -420,7 +420,7 @@
 	
 	.edit_col_field:nth-child(2)
 	{
-		width:200px;
+		width:150px;
 	}
 	
 	.edit_col_field
@@ -450,6 +450,26 @@
 		width:20px;
 		margin-right:2px;
 	}
+	
+	
+	.col_not_bin
+	{
+		background:url(/static/icons/notbin.png);
+	}
+	
+	.col_is_bin
+	{
+		background:url(/static/icons/bin.png);
+	}
+	
+	.col_bin
+	{
+		float:left;
+		height:15px;
+		width:20px;
+		margin-right:2px;
+	}
+	
 	
 	.col_is_notnull
 	{
@@ -502,6 +522,7 @@
 	{
 		float:left;
 		height:15px;
+		margin-right:2px; 
 		width:20px;
 	}
 	
@@ -565,6 +586,9 @@
 	padding: 0px;
 	margin: 0px;
 }
+
+
+
 
 .contextMenu A {
 	color: #333;

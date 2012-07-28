@@ -5,11 +5,12 @@ abstract class application
 	{
 		if(file_exists($file)) 
 		{ 
-            include_once($file); 
+            require_once($file); 
         } 
         else 
         { 
-            throw(new Exception('File does not exist.')); 
+            throw(new Exception("File does not exist. <br />{$file}")); 
+			
         } 
 	}
 	
@@ -119,7 +120,7 @@ abstract class application
 	function getDataTypes()
 	{
 		return array(
-		"VARCHAR"=>array("type"=>"text","length","notnull","default"=>""),
+		"VARCHAR"=>array("type"=>"text","binary","length","notnull","default"=>""),
 		"INT"=>array("type"=>"number","auto_increment","length","notnull","unsigned","zerofill","default"=>0),
 		"TEXT"=>array("notnull","lengthoptional","default"=>""),
 		"TINYINT"=>array("type"=>"number","lengthoptional","auto_increment","unsigned","notnull","default"=>0),
@@ -133,13 +134,13 @@ abstract class application
 		"BIT"=>array("type"=>"bit","lengthoptional","notnull","default"=>0),
 		"DATETIME"=>array("type"=>"number","length","unsigned","notnull","default"=>0),
 		"TIMESTAMP"=>array("type"=>"number","length","unsigned","notnull","default"=>"CURRENT_TIMESTAMP"),
-		"TIME"=>array("type"=>"date","length","unsigned","notnull","default"=>0),
-		"YEAR"=>array("type"=>"date","length","unsigned","notnull","default"=>0),
-		"DATE"=>array("type"=>"date","length","unsigned","notnull","default"=>0),
+		"TIME"=>array("type"=>"date","length","notnull","default"=>0),
+		"YEAR"=>array("type"=>"date","length","notnull","default"=>0),
+		"DATE"=>array("type"=>"date","length","notnull","default"=>0),
 		"TINYTEXT"=>array("notnull","default"=>""),
 		"MEDIUMTEXT"=>array("notnull","default"=>""),
 		"LONGTEXT"=>array("notnull","default"=>""),
-		"CHAR"=>array("type"=>"number","length","unsigned","notnull","default"=>0),
+		"CHAR"=>array("type"=>"number","binary","length","unsigned","notnull","default"=>0),
 		"BINARY"=>array("type"=>"number","length","unsigned","notnull","default"=>0),
 		"BLOB"=>array("type"=>"number","lengthoptional","unsigned","notnull","default"=>0),
 		"TINYBLOB"=>array("type"=>"text","notnull","default"=>""),

@@ -3,35 +3,37 @@
 class View
 {
 	public $parent;
-	public function render($name, $arg="")
+	public function render($name, $args = array(), $template = "template")
 	{
-		require "application/views/{$name}/index.php";
-		$pc = ob_get_contents();
-		ob_end_clean();
-		
-		if($name != "login")
+		$this->cleanFragments();
+		ob_start();
+		$this->args = $args;
+		application::load("application/views/{$name}.php");
+	
+		$this->content = ob_get_clean();
+
+
+		application::load("application/templates/{$template}.php");
+	}
+	
+	
+	public function fragment($name,$args=array(),$group=true)
+	{
+		ob_start();
+		$this->args = $args;
+		require("application/fragments/{$name}.php");
+		if($group)
 		{
-			include_once("application/controllers/schema.php");
-			$tmpIndex = new schema();
 			
-			$tmpIndex->parent = $this->parent->parent;
-			$schemata = $tmpIndex->all(false);
-			//todo: list
-			//<?=$GLOBALS['schema'];
-			if(isset($GLOBALS['schema']))
-			{
-				$childtables = $tmpIndex->view($GLOBALS['schema'],true);
-			}
-			else 
-			{
-				$childtables = array();	
-			}
-			
-			
+			$this->fragments[$name][] = ob_get_clean();
+
 		}
-		
-				
-		require "application/views/template.php";
+		else 
+		{
+
+			$this->fragments[$name] = ob_get_clean();
+		}
+		ob_end_clean();
 	}
 	
 	
@@ -40,6 +42,30 @@ class View
 		
 		die (json_encode($arg));
 	} 
+	
+	private function cleanFragments()
+	{
+		/*
+		print_r($this->fragments);
+		if(is_array($this->fragments))
+		{
+			foreach ($this->fragments as $name=> $fragment)
+			{
+				if(sizeof($fragment)>1)
+				{
+					
+					
+				}
+				else
+				{
+					$this->fragments[$name]=$fragment[0];
+				}
+			}
+		}
+		print_r($this->fragments);
+		 * *
+		 */
+	}
 	
 	
 	
