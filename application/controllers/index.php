@@ -5,9 +5,21 @@ class Index extends Controller
 	
 	function main()
 	{
-		if($this->needsAuth())
+
+		try
 		{
-			
+
+			if($this->needsAuth())
+			{
+				
+			}
+			else 
+			{
+				header("Location:/database/all");
+			}
+		}
+		catch (exception $e)
+		{
 			if(isset($this->e))
 			{
 				$data['error']=$this->e;
@@ -34,10 +46,12 @@ class Index extends Controller
 			
 			$this->view->render("login",$data,"login");
 		}
-		else 
-		{
-			header("Location:/schema/all");
-		}
+	
 		
+	}
+	
+	function err($msg)
+	{
+		echo $msg;
 	}
 }

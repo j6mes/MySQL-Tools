@@ -1,12 +1,9 @@
 <?php
-class Model extends Database
+class Model
 {
-	public $parent;
-	public $dbh;
-	
 	function __construct()
 	{
-		parent::__construct();
+
 	}
 	
 

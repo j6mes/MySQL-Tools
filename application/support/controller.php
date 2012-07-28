@@ -26,9 +26,32 @@ class Controller
 		application::load("application/templates/template.php");
 	}
 	
+	
 	function needsAuth()
 	{
+		
+		try
+		{
+			
+			if(isset($_SESSION['username']) and isset($_SESSION['password']))
+			{
+			
+				$dbh = new PDO("mysql:host={$_SESSION['server']};", $_SESSION['username'], $_SESSION['password']);
+				$this->dbh =$dbh;
+			
+				return 0;
+			}
+			throw new AuthException("d");
+		}
+		catch(Exception $e)
+		{
+			throw new AuthException("d");
+		}
+		
+		
+		
 		return 1;
+		
 	}
 	
 }

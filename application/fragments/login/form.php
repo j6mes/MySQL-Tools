@@ -1,3 +1,4 @@
+<form method="post" action="<?php echo BASE; ?>authentication">
 <select>
 	<?php 
 	if(is_array($this->fragments['login/optionrow']))
@@ -9,3 +10,9 @@
 	}
 	?>
 </select>
+
+
+<input type="text" name="username" />
+<input type="password" name="password" />
+<input type="submit" /> 
+</form>

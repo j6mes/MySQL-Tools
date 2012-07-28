@@ -10,6 +10,9 @@ class session
 	
 	function validate()
 	{
+		echo "in validate";
+		die;
+		session_destroy();
 		try
 		{
 			
@@ -24,7 +27,7 @@ class session
 		}
 		catch(Exception $e)
 		{
-		
+			
 		}
 		
 		

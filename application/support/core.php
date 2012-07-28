@@ -55,11 +55,25 @@ class core
 		
 		
 		try
-		{	
-			//Lets try and load our controller now
-			application::load("application/controllers/".$controller.".php");
-			$controller = new $controller;
-			$controller->parent = $this;
+		{
+			if($controller!="index" and $controller !="authentication")
+			{
+				//Lets try and load our controller now
+				application::load("application/controllers/".$controller.".php");
+				$controller = new $controller;
+				$controller->parent = $this;
+				
+				$controller->needsAuth();
+			}	
+			else
+			{
+				application::load("application/controllers/".$controller.".php");
+				$controller = new $controller;
+				$controller->parent = $this;
+				
+			}
+			
+			
 		
 			
 			
@@ -69,10 +83,7 @@ class core
 			unset($controller);
 			
 	
-			
-			$controller = new Index;
-			$controller->parent = $this;
-			$controller->err($e->getMessage());
+			header("Location: /");
 			die;
 		}
 		catch(exception $e)
@@ -108,7 +119,7 @@ class core
 		catch(AuthException $e)
 		{
 			unset($controller);
-	
+			application::load("application/controllers/index.php");
 			
 			$controller = new Index;
 			$controller->parent = $this;
@@ -123,19 +134,6 @@ class core
 	}
 
 
-	function needsAuth()
-	{
-
-		if($this->s->validate())
-		{
-			return 0;
-			
-		}
-		else 
-		{
-			return 1;	
-		}
-	}
 }
 
 

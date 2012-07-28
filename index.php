@@ -8,8 +8,10 @@ ob_start();
 
 //load all the shizzz we need			TODO:Autoload the support folder.
 require_once("application/support/session.php");
-require_once("application/support/core.php");
+require_once("application/support/controller.php");
 require_once("application/support/database.php");
+require_once("application/support/core.php");
+
 require_once("application/support/model.php");
 require_once("application/support/view.php");
 require_once("application/support/exceptions.php");
