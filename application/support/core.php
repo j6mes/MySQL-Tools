@@ -17,7 +17,7 @@ class core
 			$baseURL = "/";	
 		}
 		
-
+		define("BASE",$baseURL);
 	
 		//Check if there is a URL to parse. if not make the default one.
 		if(isset($_GET['url']))
