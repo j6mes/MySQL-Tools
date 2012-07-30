@@ -30,4 +30,11 @@ class Database extends DB
 		print_r($databases);
 	
 	}
+	
+	function create($name)
+	{
+		echo $name;
+		$db = new MDatabase($name);
+		$db->Create();
+	}
 }
