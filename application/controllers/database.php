@@ -37,4 +37,18 @@ class Database extends DB
 		$db = new MDatabase($name);
 		$db->Create();
 	}
+	
+	function drop($name)
+	{
+		echo $name;
+		$db = new MDatabase($name);
+		$db->Drop();
+	}
+	
+	function view($name)
+	{
+		echo $name;
+		$db = new MDatabase($name);
+		$tables = $db->GetTables();
+	}
 }
