@@ -53,4 +53,30 @@ class MDatabase extends MDB
 		
 		print_r($this->dbh->errorInfo());
 	}
+	
+	function GetTables()
+	{
+		application::load("application/models/mtable.php");
+		
+		
+		try
+		{
+			$smt = $this->dbh->query("SHOW TABLES IN `{$this->Database}`");
+					
+		}
+		catch(exception $e)
+		{
+			echo "error";
+			die ($e->getMessage());
+		}
+		
+		while($tmp = $smt->fetchObject("MTable"))
+		{
+			$tables[] = $tmp;
+		}
+		print_r($this->dbh->errorInfo());
+		print_r($smt->errorInfo());
+		
+		return $tables;
+	}
 }
