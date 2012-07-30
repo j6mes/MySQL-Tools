@@ -15,7 +15,8 @@ class MTable extends MDB
 			$this->Table=  ($this->{"Tables_in_{$database}"});
 			unset ($this->{"Tables_in_{$database}"});
 		}
-	
+		
+		$this->Database = ereg_replace("[^A-Za-z0-9_-]", "", $database);;
 		
 	}
 	
@@ -25,4 +26,9 @@ class MTable extends MDB
 		parent::__construct();
 	}
 	
+	
+	function Drop()
+	{
+		$this->dbh->exec("DROP TABLE `{$this->Database}`.`{$this->Table}`");
+	}
 }
