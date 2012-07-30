@@ -61,7 +61,7 @@ class MDatabase extends MDB
 		
 		try
 		{
-			$smt = $this->dbh->query("SHOW TABLES IN `{$this->Database}`");
+			$smt = $this->dbh->query("SHOW FULL TABLES IN `{$this->Database}`");
 					
 		}
 		catch(exception $e)
@@ -70,13 +70,11 @@ class MDatabase extends MDB
 			die ($e->getMessage());
 		}
 		
-		while($tmp = $smt->fetchObject("MTable"))
+		while($tmp = $smt->fetchObject("MTable",array($this->Database,NULL)))
 		{
 			$tables[] = $tmp;
 		}
-		print_r($this->dbh->errorInfo());
-		print_r($smt->errorInfo());
-		
+
 		return $tables;
 	}
 }

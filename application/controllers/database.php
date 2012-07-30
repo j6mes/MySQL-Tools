@@ -50,5 +50,6 @@ class Database extends DB
 		echo $name;
 		$db = new MDatabase($name);
 		$tables = $db->GetTables();
+		print_r($tables);
 	}
 }
