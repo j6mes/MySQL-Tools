@@ -5,6 +5,9 @@ class Authentication extends Controller
 	function main()
 	{
 		$tmpservers = $GLOBALS['servers']->getServers();
+		
+		echo $tmpservers[intval($_POST['server'])];
+
 		if(!strlen($tmpservers[intval($_POST['server'])]))
 		{
 			throw new Exception("Error Processing Request", 1);
@@ -28,7 +31,7 @@ class Authentication extends Controller
 		try 
 		{
 			
-			$pdo = new PDO("mysql:host={$server};", $_POST['username'], $_POST['password']);
+			$pdo = new PDO("mysql:host={$tmpservers[intval($_POST['server'])]};", $_POST['username'], $_POST['password']);
 		
 		}
 		catch(PDOException $e)
@@ -41,7 +44,7 @@ class Authentication extends Controller
 		unset ($dbh);
 		$_SESSION['username'] = $_POST['username'];
 		$_SESSION['password'] = $_POST['password'];
-		$_SESSION['server'] = $_POST['server'];
+		$_SESSION['server'] = $tmpservers[$_POST['server']];
 		
 		echo "ok";
 		

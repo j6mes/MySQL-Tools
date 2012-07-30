@@ -1,5 +1,5 @@
 <form method="post" action="<?php echo BASE; ?>authentication">
-<select>
+<select name="server">
 	<?php 
 	if(is_array($this->fragments['login/optionrow']))
 	{
