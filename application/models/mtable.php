@@ -33,7 +33,7 @@ class MTable extends MDB
 	}
 	
 	
-	function GetColumns()
+	function LoadColumns()
 	{
 		application::load("application/models/mcolumn.php");
 		
@@ -50,9 +50,22 @@ class MTable extends MDB
 		
 		while($tmp = $smt->fetchObject("MColumn",array($this->Database,NULL)))
 		{
-			$tables[] = $tmp;
+			$cols[] = $tmp;
 		}
 
-		return $tables;
+	 	$this->columns = $cols;
+	}
+	
+	
+	function AddColumn($name,$type)
+	{
+		$this->dbh->exec("ALTER TABLE `{$this->Database}`.`{$this->Table}` ADD COLUMN `{$name}` {$type}" );
+		print_r($this->dbh->errorInfo());
+	}
+	
+	function DropColumn($name)
+	{
+		$this->dbh->exec("ALTER TABLE `{$this->Database}`.`{$this->Table}` DROP COLUMN `{$name}`" );
+		print_r($this->dbh->errorInfo());
 	}
 }
