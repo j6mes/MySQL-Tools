@@ -31,4 +31,28 @@ class MTable extends MDB
 	{
 		$this->dbh->exec("DROP TABLE `{$this->Database}`.`{$this->Table}`");
 	}
+	
+	
+	function GetColumns()
+	{
+		application::load("application/models/mcolumn.php");
+		
+		
+		try
+		{
+			$smt = $this->dbh->query("DESCRIBE `{$this->Database}`.`{$this->Table}`");
+		}
+		catch(exception $e)
+		{
+			echo "error";
+			die ($e->getMessage());
+		}
+		
+		while($tmp = $smt->fetchObject("MColumn",array($this->Database,NULL)))
+		{
+			$tables[] = $tmp;
+		}
+
+		return $tables;
+	}
 }

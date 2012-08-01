@@ -11,12 +11,16 @@ class Table extends DB
 		
 		parent::__construct();
 	}
+	
+	
 	function view($name)
 	{
 		
 		list($database,$name) = explode(".", $name,2);
 		$table = new MTable($database, $name);
 		
+		$cols = $table->GetColumns();
+		print_r($cols);
 		
 		echo "h";
 	}
@@ -29,4 +33,6 @@ class Table extends DB
 		
 		$table->Drop();
 	}
+
+
 }
