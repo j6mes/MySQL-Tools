@@ -37,7 +37,7 @@ class View
 	}
 	
 	
-	public function ajax($view,$arg=array())
+	public function ajax($arg=array())
 	{
 		
 		die (json_encode($arg));
