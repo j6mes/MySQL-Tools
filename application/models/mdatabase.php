@@ -54,7 +54,7 @@ class MDatabase extends MDB
 		print_r($this->dbh->errorInfo());
 	}
 	
-	function GetTables()
+	function LoadTables()
 	{
 		application::load("application/models/mtable.php");
 		
@@ -75,7 +75,7 @@ class MDatabase extends MDB
 			$tables[] = $tmp;
 		}
 
-		return $tables;
+		$this->tables= $tables;
 	}
 	
 

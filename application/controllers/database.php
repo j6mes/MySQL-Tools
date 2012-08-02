@@ -59,9 +59,20 @@ class Database extends DB
 	
 	function view($name)
 	{
-		echo $name;
 		$db = new MDatabase($name);
-		$tables = $db->GetTables();
-		print_r($tables);
+		$db->LoadTables();
+		
+
+		if(is_array($db->tables))
+		{
+			foreach($db->tables as $table)
+			{
+				$this->view->fragment("database/view/table",array("table"=>$table));
+			}
+		}
+		
+		
+		$this->view->render("database/view", array("database"=>$db));
+
 	}
 }
