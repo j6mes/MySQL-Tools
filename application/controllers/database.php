@@ -15,7 +15,10 @@ class Database extends DB
 	{
 		header("Location:/database/all");
 		die;
+		
 	}
+	
+
 	
 	function all()
 	{
@@ -27,7 +30,17 @@ class Database extends DB
 			$databases[] = $tmp;
 		}	
 		
-		print_r($databases);
+		
+		
+		if(isset($this->core->json))
+		{
+			$this->view->ajax(array("databases"=>$databases));
+			
+		}
+		else
+		{
+			var_dump($databases);
+		}
 	
 	}
 	
