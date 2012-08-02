@@ -32,15 +32,8 @@ class Database extends DB
 		
 		
 		
-		if(isset($this->core->json))
-		{
-			$this->view->ajax(array("databases"=>$databases));
-			
-		}
-		else
-		{
-			var_dump($databases);
-		}
+		$this->view->render("databases", array("databases"=>$databases));
+		
 	
 	}
 	

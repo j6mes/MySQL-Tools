@@ -5,6 +5,12 @@ class View
 	public $parent;
 	public function render($name, $args = array(), $template = "template")
 	{
+		if(isset($this->parent->core->json))
+		{
+			$this->ajax($args);
+			die;
+		}
+		
 		$this->cleanFragments();
 		ob_start();
 		$this->args = $args;
