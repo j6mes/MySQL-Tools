@@ -31,8 +31,14 @@ class Database extends DB
 		}	
 		
 		
-		
-		$this->view->render("databases", array("databases"=>$databases));
+		if(is_array($databases))
+		{
+			foreach($databases as $database)
+			{
+				$this->view->fragment("database/all/database",array("database"=>$database));
+			}
+		}
+		$this->view->render("database/all", array("databases"=>$databases));
 		
 	
 	}
