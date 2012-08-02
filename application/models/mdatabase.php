@@ -78,8 +78,5 @@ class MDatabase extends MDB
 		return $tables;
 	}
 	
-	function __toString()
-	{
-		echo "weee";
-	}
+
 }
