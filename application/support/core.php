@@ -17,13 +17,25 @@ class core
 			$baseURL = "/";	
 		}
 		
+		
+		
 		define("BASE",$baseURL);
 	
-		//Check if there is a URL to parse. if not make the default one.
+		//Check if there is a URL to parse. if not make the default one.	
+		
+		if( substr($_GET['url'],-5,5)==".json")
+		{
+			$this->json = 1;
+			$_GET['url'] = substr($_GET['url'],0, strlen($_GET['url'])-5);
+		}
+		
+		
 		if(isset($_GET['url']))
 		{
 			$url = explode("/",$_GET['url']);
 		}
+		
+		
 
 	
 		//Controller will always be first element of a URL
@@ -61,7 +73,7 @@ class core
 				//Lets try and load our controller now
 				application::load("application/controllers/".$controller.".php");
 				$controller = new $controller;
-				$controller->parent = $this;
+				$controller->core = $this;
 				
 				$controller->needsAuth();
 			}	
@@ -69,7 +81,7 @@ class core
 			{
 				application::load("application/controllers/".$controller.".php");
 				$controller = new $controller;
-				$controller->parent = $this;
+				$controller->core = $this;
 				
 			}
 			
@@ -122,7 +134,7 @@ class core
 			application::load("application/controllers/index.php");
 			
 			$controller = new Index;
-			$controller->parent = $this;
+			$controller->core = $this;
 			$controller->err($e->getMessage());	
 			
 		}
