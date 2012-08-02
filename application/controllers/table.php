@@ -19,9 +19,16 @@ class Table extends DB
 		list($database,$name) = explode(".", $name,2);
 		$table = new MTable($database, $name);
 		
-		$table->LoadColumns();
-	
-	
+		
+		application::load("application/models/mquery.php");
+		
+		
+		$query = new MQuery("SELECT * FROM `{$table->Database}`.`{$table->Table}`");	
+		$this->view->render("resultset",array("query"=>$query));
+		
+		
+
+		
 	}
 	
 	function  drop ($name)

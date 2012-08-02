@@ -1,0 +1,66 @@
+*
+{
+	font-family:Arial, Helvetica, sans-serif;
+	margin:0; padding:0;
+}
+
+#header, #header a
+{
+	background-color:#123;	
+	height:16px;
+	color:#ccc;
+	font-size:12px;
+	padding:10px;
+	text-decoration:none;
+}
+
+#header a:hover
+{
+	text-decoration:underline;
+}
+
+
+
+#sidebar
+{
+	position:absolute;
+	width:180px;
+	left:0;
+	top:36px;
+	bottom:0;
+	background:#eee;
+}
+
+#content
+{
+	position:absolute;
+	left:180px;
+	right:0;
+	top:36px;
+	bottom:0;
+	overflow-y: scroll;
+}
+
+.resultset_textarea
+{
+	height:100px;
+}
+
+.resultset_textarea > textarea
+{
+	position:absolute;
+	border:0;
+	left:0; 
+	height:80px;
+	right:0;
+	padding:10px;
+	font-family:monospace;
+}
+
+.resultset_toolbar
+{
+	background-color: #EEE;
+	height:16px;
+	padding:10px;
+}
+

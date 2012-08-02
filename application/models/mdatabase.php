@@ -50,8 +50,7 @@ class MDatabase extends MDB
 			echo "error";
 			die ($e->getMessage());
 		}
-		
-		print_r($this->dbh->errorInfo());
+	
 	}
 	
 	function LoadTables()
