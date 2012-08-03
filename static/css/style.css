@@ -43,7 +43,7 @@
 
 .resultset_textarea
 {
-	height:100px;
+	height:125px;
 }
 
 .resultset_textarea > textarea
@@ -51,10 +51,15 @@
 	position:absolute;
 	border:0;
 	left:0; 
-	height:80px;
+	height:150px;
 	right:0;
 	padding:10px;
 	font-family:monospace;
+}
+
+.CodeMirror-lines pre, .CodeMirror-lines span, .CodeMirror-gutter-text
+{
+	font-family:monospace !important;
 }
 
 .resultset_toolbar
