@@ -21,3 +21,22 @@
   	lineNumbers: true
 });
 </script>
+
+<script>
+	$(document).ready(function()
+	{
+		if($("#qry").val().length)
+		{
+			qry($("#qry").val());
+		}
+	});
+	
+	
+	function qry(query)
+	{
+		$.post("/query.json",{"query":query},function(data)
+		{
+			
+		});
+	}
+</script>
