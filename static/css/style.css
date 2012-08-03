@@ -69,3 +69,22 @@
 	padding:10px;
 }
 
+table#results
+{
+	width:100%;
+	font-size:12px;
+	overflow-x:auto;
+	border-collapse:collapse;
+}
+
+table#results td
+{
+	padding:3px;
+	border:1px solid #ccc;
+}
+
+table#results tr:nth-child(2n)
+{
+	background-color:#EEE;
+}
+

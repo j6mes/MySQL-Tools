@@ -11,7 +11,7 @@
 	<a href="#">Execute</a>
 </div>
 <div class="resultset_table">
-	res
+	Loading Results
 </div>
 
 
@@ -34,9 +34,37 @@
 	
 	function qry(query)
 	{
+		$(".resultset_table").html("");
+		
 		$.post("/query.json",{"query":query},function(data)
 		{
+			var rows = Array();
+		
+			var th = "<tr>";
+			$.each(data.resultset[0],function(idx,col)
+			{
+				th += "<th>"+idx+"</th>"
+			});
+			th += "</tr>"
 			
-		});
+			rows.push (th)
+			
+			
+			$.each(data.resultset,function(idx,row)
+			{
+				var rowtext = "<tr>"
+				$.each(row, function(colname,column)
+				{
+					rowtext += "<td><pre>" + column + "</pre></td>";
+				})
+			    rowtext += '</tr>';
+			    rows.push(rowtext);
+			
+			});
+			
+			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
+			
+			
+		},"json");
 	}
 </script>
