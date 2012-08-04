@@ -31,6 +31,13 @@
 		}
 	});
 	
+	function escapeHTML (str)
+	{
+	   	var div = document.createElement('div');
+	   	var text = document.createTextNode(str);
+	   	div.appendChild(text);
+	   	return div.innerHTML;
+	}
 	
 	function qry(query)
 	{
@@ -55,7 +62,8 @@
 				var rowtext = "<tr>"
 				$.each(row, function(colname,column)
 				{
-					rowtext += "<td><pre>" + column + "</pre></td>";
+					
+					rowtext += "<td>" + escapeHTML(column) + "</td>";
 				})
 			    rowtext += '</tr>';
 			    rows.push(rowtext);
@@ -63,8 +71,7 @@
 			});
 			
 			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
-			
-			
+	
 		},"json");
 	}
 </script>
