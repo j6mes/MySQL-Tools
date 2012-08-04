@@ -77,14 +77,24 @@ table#results
 	border-collapse:collapse;
 }
 
+
+table#results th
+{
+	padding:6px;
+	background-color:#EEE;
+	border:1px solid #ccc;
+}
+
+
 table#results td
 {
 	padding:3px;
 	border:1px solid #ccc;
+	
 }
 
-table#results tr:nth-child(2n)
+table#results tr:nth-child(2n+1)
 {
-	background-color:#EEE;
+	background-color:#FAFAFA;
 }
 
