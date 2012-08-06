@@ -43,11 +43,21 @@ class Database extends DB
 	
 	}
 	
-	function create($name)
+	function create()
 	{
-		echo $name;
-		$db = new MDatabase($name);
-		$db->Create();
+		if(isset($_POST['database']))
+		{
+			
+			$name = ereg_replace("[^A-Za-z0-9_-]", "", $_POST['database']);
+			$db = new MDatabase($name);
+			$db->Create();
+		}
+		else
+		{
+			$this->view->render("database/create");
+				
+		}
+		
 	}
 	
 	function drop($name)
