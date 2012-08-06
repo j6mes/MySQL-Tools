@@ -95,6 +95,10 @@ class Database extends DB
 				$this->view->fragment("database/view/table",array("table"=>$table));
 			}
 		}
+		else 
+		{
+			$this->view->fragment("database/all/none",null,1);
+		}
 		
 		
 		$this->view->render("database/view", array("database"=>$db));
