@@ -62,6 +62,21 @@ class Database extends DB
 	
 	function drop($name)
 	{
+		$name = ereg_replace("[^A-Za-z0-9_-]", "", $name);
+		if(isset($_POST['drop']))
+		{
+			
+			
+			$db = new MDatabase($name);
+			$db->Drop();
+		}
+		else
+		{
+			
+			$this->view->render("database/drop");
+				
+		}
+		
 		echo $name;
 		$db = new MDatabase($name);
 		$db->Drop();
