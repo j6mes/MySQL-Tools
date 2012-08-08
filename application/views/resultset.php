@@ -223,6 +223,7 @@ jQuery.fn.selText = function() {
 								$("tr:nth-child("+(y+1)+ ") > td:nth-child("+(x+1)+")").addClass("selrow");
 							}
 							
+							
 						}
 					}
 					else if((xoffs<=0)&&(yoffs>=0))
