@@ -95,6 +95,12 @@ jQuery.fn.selText = function() {
 			
 			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
 			
+	
+								
+			$("#results td").contextMenu({menu: 'resultsetMenu'},function(action,el,pos)
+			{
+				alert($(el).html());
+			});
 			
 			if( $.browser.mozilla ) {
 				$('#results td' ).each( function() { $(this).css({ 'MozUserSelect' : 'none' }); });
@@ -103,19 +109,17 @@ jQuery.fn.selText = function() {
 			} else {
 				$('#results td').each(function() { $(this).bind('mousedown.disableTextSelect', function() { return false; }); });
 			}
-			
+		
 			var active = 0;
 			var startrow = 0;
 			var startcol = 0;
 			
-				
-			$("#results td").contextMenu({menu: 'resultsetMenu'},function(action,el,pos)
+
+			
+			$("#results td").bind("dblclick",function()
 			{
-				alert($(el).html());
-			});
-			
-			
-			
+				alert("d");
+			})
 			
 			$("#results td").bind('mousedown',function(el)
 			{
@@ -220,6 +224,8 @@ jQuery.fn.selText = function() {
 				
 			});
 			
+			
+
 			
 		
 	

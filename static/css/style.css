@@ -90,6 +90,7 @@ table#results td
 {
 	padding:3px;
 	border:1px solid #ccc;
+	cursor:default;
 	
 }
 
@@ -98,3 +99,70 @@ table#results tr:nth-child(2n+1)
 	background-color:#FAFAFA;
 }
 
+table#results .selrow
+{
+	background-color: #002240;
+	color:#FFF;
+}
+
+
+.CodeMirror-lines pre, .CodeMirror-lines span, .CodeMirror-gutter-text
+{
+	font-family:monospace !important;
+}
+
+
+
+.contextMenu {
+	position: absolute;
+	width: 230px;
+	z-index: 99999;
+	border: solid 1px #CCC;
+	background: #EEE;
+	padding: 0px;
+	margin: 0px;
+	display: none;
+}
+
+
+.contextMenu A {
+	color: #333;
+	text-decoration: none;
+	display: block;
+	line-height: 20px;
+	height: 20px;
+	background-position: 6px center;
+	background-repeat: no-repeat;
+	outline: none;
+	padding: 1px 5px;
+	padding-left: 28px;
+}
+
+.contextMenu li
+{
+	list-style: none;
+}
+
+.contextMenu LI.hover A {
+	color: #FFF;
+	background-color: #3399FF;
+}
+
+.contextMenu LI.disabled A {
+	color: #AAA;
+	cursor: default;
+}
+
+.contextMenu LI.hover.disabled A {
+	background-color: transparent;
+}
+
+.selrow
+{
+	background-color:#002240;
+	color:#FFF;
+}
+
+.contextMenu LI.separator {
+	border-top: solid 1px #CCC;
+}

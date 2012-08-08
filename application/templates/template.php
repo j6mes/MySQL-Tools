@@ -29,5 +29,30 @@
 		
 		
 		
+<ul id="resultsetMenu" class="contextMenu">
+    <li class="edit">
+        <a href="#edit">Quick Edit</a>
+    </li>
+    <li class="cut">
+        <a href="#cut">Open Editor</a>
+    </li>
+    <li class="copy separator">
+        <a href="#copy">Copy Cell</a>
+    </li>
+    
+    <li class="copyr">
+        <a href="#copy">Copy Row</a>
+    </li>
+    
+    
+    <li class="paste separator">
+        <a href="#paste">Paste Cell</a>
+    </li>
+    
+    
+    <li class="paste">
+        <a href="#paste">Paste Row</a>
+    </li>
+</ul>
 	</body>
 </html>
