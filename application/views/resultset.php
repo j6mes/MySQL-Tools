@@ -9,7 +9,7 @@
 	<textarea id="qry"><?php echo $this->args['query']->Query; ?></textarea>
 </div>
 <div class="resultset_toolbar">
-	<a href="#">Execute</a>
+	<a href="#" id="exec">Execute</a>
 </div>
 <div class="resultset_table">
 	Loading Results
@@ -48,7 +48,16 @@ jQuery.fn.selText = function() {
 		if($("#qry").val().length)
 		{
 			qry($("#qry").val());
+			
+			
+			
 		}
+		
+		$("#exec").click(function()
+		{
+			alert(" qry "+ $("#qry").val())
+			qry(editor.getValue());
+		});
 	});
 	
 	function escapeHTML (str)
@@ -61,10 +70,34 @@ jQuery.fn.selText = function() {
 	
 	function qry(query)
 	{
-		
+		$("#results td").unbind("dblclick");
+		$("#results td").unbind("mouseover");
+		$("#results td").unbind("mousedown");
+		$("body").unbind("mouseup");
+		$("body").unbind("click");
 		
 		$.post("/query.json",{"query":query},function(data)
 		{
+			$.post("/query/explain.json",{"query":query},function(data)
+			{
+				if(data.readonly!="readonly")
+				{
+					$.post("/query/describeFirstTable.json",{"query":query},function(data)
+					{
+						$.each(data.resultset,function(idx,mrt)
+						{
+							if(mrt.Key == "PRI")
+							{
+								alert("hi");
+							}
+						});
+						
+					},"json");
+				}
+				 
+			},"json");
+			
+			
 			$(".resultset_table").html("");
 			var rows = Array();
 		
