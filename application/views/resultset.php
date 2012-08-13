@@ -24,6 +24,9 @@
 </script>
 
 <script>
+var activel = "";
+
+
 jQuery.fn.selText = function() {
     var obj = this[0];
     if ($.browser.msie) {
@@ -82,13 +85,14 @@ jQuery.fn.selText = function() {
 			{
 				if(data.readonly!="readonly")
 				{
+					
 					$.post("/query/describeFirstTable.json",{"query":query},function(data)
 					{
 						$.each(data.resultset,function(idx,mrt)
 						{
 							if(mrt.Key == "PRI")
 							{
-								alert("hi");
+								
 							}
 						});
 						
@@ -119,20 +123,73 @@ jQuery.fn.selText = function() {
 				$.each(row, function(colname,column)
 				{
 					
-					rowtext += "<td rowid=\""+i+"\" colid=\""+ (j++) +"\">" + escapeHTML(column) + "</td>";
+					rowtext += "<td rowid=\""+i+"\" colid=\""+ (j++) +"\">" + column + "</td>";
+					
 				})
-			    rowtext += '</tr>';
+				
+				rowtext += '</tr>';
 			    rows.push(rowtext);
 			
 			});
 			
 			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
 			
-	
+			$("#results td").each(function(idx, obj)
+			{
+				$(obj).attr("contents",$(obj).html());
+				$(obj).html(escapeHTML($(obj).html()));
+			});
 								
 			$("#results td").contextMenu({menu: 'resultsetMenu'},function(action,el,pos)
 			{
-				alert($(el).html());
+				var contents = $(el).attr("contents");
+				if(action=="edit")
+				{
+					
+					
+					$(el).unbind("mouseup");
+					$(el).unbind("click");
+					$(el).unbind("mousedown");
+					
+					$(el).addClass("edited");
+					
+					activel = $(el);
+					hz= $(el).css("height");
+					wz= $(el).css("width");
+					
+				
+					$(el).html("");
+					$(el).append("<textarea id=\"tbe\"></textarea>");
+					
+					
+					$(el).find("textarea").val(contents);
+					
+					
+					
+					$(el).css("width",wz);
+					$("#tbe").css("height",hz);
+					$("#tbe").css("width",wz);
+					
+				
+				}
+				else if(action=="fedit")
+				{
+					$(".modal").show("slow");
+					$(".modalobj").html("<h1>Edit Cell Value</h1>");
+					$(".modalobj").append("<textarea></textarea><br />");
+					$(".modalobj").append("<button action='save'>Save</button>");
+					$(".modalobj").append("<button action='cancel'>Cancel</button>");
+					$(".modalobj textarea").val(contents);
+			
+					$("button[action=save]").click(function()
+					{
+						$(".modal").hide("slow");
+						$(el).attr("contents",$(".modalobj textarea").val());
+						$(el).html(escapeHTML($(".modalobj textarea").val()));
+						
+					});
+				}
+				
 			});
 			
 			if( $.browser.mozilla ) {
@@ -144,6 +201,7 @@ jQuery.fn.selText = function() {
 			}
 		
 			var active = 0;
+			
 			var startrow = 0;
 			var startcol = 0;
 			
@@ -151,11 +209,20 @@ jQuery.fn.selText = function() {
 			
 			$("#results td").bind("dblclick",function()
 			{
-				alert("d");
+				
 			})
 			
 			$("#results td").bind('mousedown',function(el)
 			{
+				if(activel != "")
+				{
+					cpxcontent = activel.find("textarea").val();
+					activel.html(escapeHTML(cpxcontent));
+					activel.attr("contents",cpxcontent);
+					activel ="";
+					
+				}
+				
 				
 				if(el.which==1)
 				{
@@ -165,6 +232,8 @@ jQuery.fn.selText = function() {
 					startcol = parseInt($(this).attr('colid'));
 					
 					active =1;
+					
+					
 				}
 				else if(el.which)
 				{

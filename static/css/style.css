@@ -88,6 +88,8 @@ table#results th
 
 table#results td
 {
+	display:table-cell;
+	height:24px;
 	padding:3px;
 	border:1px solid #ccc;
 	cursor:default;
@@ -165,4 +167,57 @@ table#results .selrow
 
 .contextMenu LI.separator {
 	border-top: solid 1px #CCC;
+}
+
+#results td textarea
+{
+	display:block;
+	border:none;
+	padding:0px;
+	
+}
+
+#results td.edited 
+{
+	background-color:#E1F0C2;
+}
+
+
+.modal
+{
+	display:none;
+	height:100%;
+	width:100%;
+	position:fixed;
+}
+
+.modalbg
+{
+	width:100%;
+	height:100%;
+	background-color:#CCC;
+	opacity:0.7;
+	position:fixed;
+	z-index:5;
+}
+
+.modalobj
+{
+	position:relative;
+	z-index:10;
+	
+	border-radius:5px;
+	border:#CCC 1px solid;
+	background-color:#FFFFFF;
+	
+	width:560px;
+	height:380px;
+	
+	padding:20px;
+
+	margin-left:auto !important;
+	margin-right:auto !important;
+	margin-top:50px;
+
+
 }
