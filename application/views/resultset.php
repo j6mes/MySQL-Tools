@@ -46,6 +46,27 @@ jQuery.fn.selText = function() {
     return this;
 }
 
+	function addrowbind()
+	{
+		var row = "<tr class=\"new\">";
+				
+		for(i=0;i<parseInt($(this).attr("colspan"));++i)
+		{
+			row += "<td></td>";
+		}
+		
+		row += "</tr><tr>"+$(this).parent().html()+"</tr>";
+		
+		
+		$(this).parent().parent().append(row);
+		
+		$(this).parent().remove();
+		
+		$(".addrow").bind("click",addrowbind);
+		
+	}
+	
+	
 	$(document).ready(function()
 	{
 		if($("#qry").val().length)
@@ -115,11 +136,12 @@ jQuery.fn.selText = function() {
 			rows.push (th)
 			
 			var i = 0;
+			var j = 0;
 			$.each(data.resultset,function(idx,row)
 			{
 				var rowtext = "<tr>"
 				i++
-				var j = 0;
+				j=0;
 				$.each(row, function(colname,column)
 				{
 					
@@ -131,6 +153,15 @@ jQuery.fn.selText = function() {
 			    rows.push(rowtext);
 			
 			});
+			
+			var tf = "<tr>"
+		
+			tf += "<td class=\"addrow\" colspan=\""+j+"\">Add Row</td>"
+				
+			tf += "</tr>"
+			
+			rows.push (tf)
+			
 			
 			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
 			
@@ -189,8 +220,14 @@ jQuery.fn.selText = function() {
 						
 					});
 				}
-				
+				else if(action=="delete")
+				{
+					
+					$(el).parent().addClass("todelete");
+					$(el).parent().find("td").addClass("deleted")
+				}
 			});
+			
 			
 			if( $.browser.mozilla ) {
 				$('#results td' ).each( function() { $(this).css({ 'MozUserSelect' : 'none' }); });
@@ -257,6 +294,7 @@ jQuery.fn.selText = function() {
 				
 			});
 			
+			$(".addrow").bind('click',addrowbind);
 			
 			
 			$("#results td").bind('mouseover',function(el)
@@ -334,5 +372,7 @@ jQuery.fn.selText = function() {
 	
 		},"json");
 	}
+	
+
 </script>
 
