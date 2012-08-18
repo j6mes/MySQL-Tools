@@ -46,10 +46,38 @@ jQuery.fn.selText = function() {
     return this;
 }
 
+	function doedit(el)
+	{
+		var contents = $(el).attr("contents");
+		$(el).unbind("mouseup");
+		$(el).unbind("click");
+		$(el).unbind("mousedown");
+		
+		$(el).addClass("edited");
+		
+		activel = $(el);
+		hz= $(el).css("height");
+		wz= $(el).css("width");
+		
+	
+		$(el).html("");
+		$(el).append("<textarea id=\"tbe\"></textarea>");
+		
+		
+		$(el).find("textarea").val(contents);
+		
+		
+		
+		$(el).css("width",wz);
+		$("#tbe").css("height",hz);
+		$("#tbe").css("width",wz);
+	}
+	
 	function addrowbind()
 	{
+		
 		var row = "<tr class=\"new\">";
-				
+		
 		for(i=0;i<parseInt($(this).attr("colspan"));++i)
 		{
 			row += "<td></td>";
@@ -64,6 +92,11 @@ jQuery.fn.selText = function() {
 		
 		$(".addrow").bind("click",addrowbind);
 		
+		
+		$("tr.new>td").bind("click",function()
+		{
+			doedit(this);
+		});
 	}
 	
 	
@@ -92,6 +125,7 @@ jQuery.fn.selText = function() {
 	   	return div.innerHTML;
 	}
 	
+
 	function qry(query)
 	{
 		$("#results td").unbind("dblclick");
@@ -177,29 +211,7 @@ jQuery.fn.selText = function() {
 				if(action=="edit")
 				{
 					
-					
-					$(el).unbind("mouseup");
-					$(el).unbind("click");
-					$(el).unbind("mousedown");
-					
-					$(el).addClass("edited");
-					
-					activel = $(el);
-					hz= $(el).css("height");
-					wz= $(el).css("width");
-					
-				
-					$(el).html("");
-					$(el).append("<textarea id=\"tbe\"></textarea>");
-					
-					
-					$(el).find("textarea").val(contents);
-					
-					
-					
-					$(el).css("width",wz);
-					$("#tbe").css("height",hz);
-					$("#tbe").css("width",wz);
+					doedit(el);
 					
 				
 				}
