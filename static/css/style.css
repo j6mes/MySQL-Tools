@@ -75,6 +75,7 @@ table#results
 	font-size:12px;
 	overflow-x:auto;
 	border-collapse:collapse;
+	
 }
 
 
@@ -220,4 +221,9 @@ table#results .selrow
 	margin-top:50px;
 
 
+}
+
+.deleted
+{
+	background-color:#EE3333;
 }
