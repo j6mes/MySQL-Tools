@@ -53,6 +53,10 @@
 		    <li class="paste">
 		        <a href="#paste">Paste Row</a>
 		    </li>
+		    
+		      <li class="deleterow separator">
+		        <a href="#delete">Delete Row</a>
+		    </li>
 		</ul>
 
 		<div class="modal">
