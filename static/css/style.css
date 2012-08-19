@@ -228,7 +228,7 @@ table#results .selrow
 	background-color:#EE3333;
 }
 
-.new 
+.new > td, .new >td.edited
 {
 	background-color:#CCCC77;
 }
