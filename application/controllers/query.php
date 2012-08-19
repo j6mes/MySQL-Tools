@@ -46,7 +46,7 @@ class Query extends DB
 		
 		$resultset = $smt->fetchAll(PDO::FETCH_ASSOC);
 		
-		$this->view->render("resultset",array("resultset"=>$resultset));
+		$this->view->render("resultset",array("table"=>strval($tdata[2][0]),"resultset"=>$resultset));
 		
 	}
 }
