@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/static/js/codemirror/theme/default.css">
 <script src="/static/js/codemirror/lib/codemirror.js"></script>
 <script src="/static/js/jquery.contextMenu.js"></script>
+<script src="/static/js/json.js"></script>
 <script src="/static/js/codemirror/mode/sparql/sparql.js"></script>
 
 
@@ -9,7 +10,7 @@
 	<textarea id="qry"><?php echo $this->args['query']->Query; ?></textarea>
 </div>
 <div class="resultset_toolbar">
-	<a href="#" id="exec">Execute</a>
+	<a href="#" id="exec">Execute</a> <a href="#" id="commit">Commit Changes</a>
 </div>
 <div class="resultset_table">
 	Loading Results
@@ -26,6 +27,30 @@
 <script>
 var activel = "";
 
+function dump(arr,level) {
+	var dumped_text = "";
+	if(!level) level = 0;
+	
+	//The padding given at the beginning of the line.
+	var level_padding = "";
+	for(var j=0;j<level+1;j++) level_padding += "    ";
+	
+	if(typeof(arr) == 'object') { //Array/Hashes/Objects 
+		for(var item in arr) {
+			var value = arr[item];
+			
+			if(typeof(value) == 'object') { //If it is an array,
+				dumped_text += level_padding + "'" + item + "' ...\n";
+				dumped_text += dump(value,level+1);
+			} else {
+				dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+			}
+		}
+	} else { //Stings/Chars/Numbers etc.
+		dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+	}
+	return dumped_text;
+}
 
 jQuery.fn.selText = function() {
     var obj = this[0];
@@ -156,25 +181,6 @@ jQuery.fn.selText = function() {
 		
 		$.post("/query.json",{"query":query},function(data)
 		{
-			$.post("/query/explain.json",{"query":query},function(data)
-			{
-				if(data.readonly!="readonly")
-				{
-					
-					$.post("/query/describeFirstTable.json",{"query":query},function(data)
-					{
-						$.each(data.resultset,function(idx,mrt)
-						{
-							if(mrt.Key == "PRI")
-							{
-								
-							}
-						});
-						
-					},"json");
-				}
-				 
-			},"json");
 			
 			
 			$(".resultset_table").html("");
@@ -219,11 +225,50 @@ jQuery.fn.selText = function() {
 			
 			$('<table id="results"></table>').append(rows.join('')).appendTo('.resultset_table');
 			
+		
 			$("#results td").each(function(idx, obj)
 			{
 				$(obj).attr("contents",$(obj).html());
 				$(obj).html(escapeHTML($(obj).html()));
 			});
+			
+			
+			$.post("/query/explain.json",{"query":query},function(data)
+			{
+				if(data.readonly!="readonly")
+				{
+					/*
+					 * TODO enable/disable edits
+					 * 
+					 */
+					
+					
+					$.post("/query/describeFirstTable.json",{"query":query},function(data)
+					{
+						$.each(data.resultset,function(idx,mrt)
+						{
+							
+							$("#results th").each(function(idx,col)
+							{
+								
+								if($(col).html()==mrt.Field)
+								{
+									$(col).attr("field",mrt.Field);
+									$(col).attr("type",mrt.Type);
+									$(col).attr("key",mrt.Key);
+									$(col).attr("colid",idx);
+								}
+							});
+							
+						});
+						
+					},"json");
+				}
+				 
+			},"json");
+			
+			
+			
 								
 			$("#results td").contextMenu({menu: 'resultsetMenu'},function(action,el,pos)
 			{
@@ -398,7 +443,41 @@ jQuery.fn.selText = function() {
 			});
 			
 			
-
+			$("#commit").bind('click',function()
+			{
+				if(activel != "")
+				{
+					cpxcontent = activel.find("textarea").val();
+					activel.html(escapeHTML(cpxcontent));
+					activel.attr("contents",cpxcontent);
+					activel ="";
+					
+				}
+				
+				var data = new Object();
+		
+				$(".edited").each(function(idx,obj)
+				{
+					var id= $(obj).parent().find($("td[colid=" + ($("#results th[key=PRI]").attr("colid")) + "]")).attr("contents");
+					var field = $("#results th[colid="+$(obj).attr("colid")+"]").attr("field") ;
+					if(data[id] instanceof Object)
+					{
+						
+					}
+					else 
+						data[id]= new Object();
+					}
+					data[id][field] = $(obj).attr("contents");
+					
+					
+					
+				});
+				alert(JSON.stringify(data));
+				alert(data.serializeArray());
+				
+				
+				
+			});
 			
 		
 	
