@@ -232,3 +232,8 @@ table#results .selrow
 {
 	background-color:#CCCC77;
 }
+
+th[key=PRI]
+{
+	text-decoration:overline;
+}
