@@ -48,6 +48,16 @@ jQuery.fn.selText = function() {
 
 	function doedit(el)
 	{
+		if(activel != "")
+		{
+			cpxcontent = activel.find("textarea").val();
+			activel.html(escapeHTML(cpxcontent));
+			activel.attr("contents",cpxcontent);
+			activel ="";
+			
+		}
+				
+				
 		var contents = $(el).attr("contents");
 		$(el).unbind("mouseup");
 		$(el).unbind("click");
@@ -76,6 +86,16 @@ jQuery.fn.selText = function() {
 	function addrowbind()
 	{
 		
+		if(activel != "")
+		{
+			cpxcontent = activel.find("textarea").val();
+			activel.html(escapeHTML(cpxcontent));
+			activel.attr("contents",cpxcontent);
+			activel ="";
+			
+		}
+				
+				
 		var row = "<tr class=\"new\">";
 		
 		for(i=0;i<parseInt($(this).attr("colspan"));++i)
