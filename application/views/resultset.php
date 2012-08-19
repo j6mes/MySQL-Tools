@@ -25,6 +25,7 @@
 </script>
 
 <script>
+var table;
 var activel = "";
 
 function dump(arr,level) {
@@ -245,6 +246,7 @@ jQuery.fn.selText = function() {
 					
 					$.post("/query/describeFirstTable.json",{"query":query},function(data)
 					{
+						table = data.table;
 						$.each(data.resultset,function(idx,mrt)
 						{
 							
@@ -465,6 +467,7 @@ jQuery.fn.selText = function() {
 						
 					}
 					else 
+					{
 						data[id]= new Object();
 					}
 					data[id][field] = $(obj).attr("contents");
@@ -473,9 +476,12 @@ jQuery.fn.selText = function() {
 					
 				});
 				alert(JSON.stringify(data));
-				alert(data.serializeArray());
 				
-				
+				$.post("/table/edit/"+table.replace("`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
+				{
+					alert(data)
+				});
+						
 				
 			});
 			
