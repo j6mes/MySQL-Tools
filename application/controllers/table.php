@@ -59,5 +59,52 @@ class Table extends DB
 		$table->DropColumn("test");
 	}
 	
+	function update($table)
+	{
+		
+		if(isset($_POST['load']))
+		{
+			$load = json_decode(stripcslashes($_POST['load']));
+		
+			$bits = explode(".",$table,2);
+			
+			$bits[0] = "`{$bits[0]}`";
+			$bits[1] = "`{$bits[1]}`";
+			
+			$table = $bits[0].".".$bits[1];
+			
+			
+			foreach ($load as $rowid=>$fields)
+			{
+				$qry = "UPDATE {$table} SET ";
+				$fieldqry = array();
+				foreach($fields as $field=>$data)
+				{
+					$field = "`{$field}`";
+					$data = addslashes($data);
+					$fieldqry[] = "{$field} = \"{$data}\"";
+				}
+				
+				$qry.= implode(", ",$fieldqry);
+				$index = ereg_replace("[^A-Za-z0-9_-]", "", $_POST['index'] );
+				$qry .= " WHERE `{$index}` = \"{$rowid}\"";
+				
+				echo $qry."\n";
+				
+				$this->dbh->exec($qry);
+				$eif = $this->dbh->errorInfo();
+				if(intval($eif[0]) != 0)
+				{
+					$errors[] = $eif;
+				}
+				
+			
+			}
+			
+			print_r($errors);
+			
+		}
+
+	}
 
 }
