@@ -621,14 +621,11 @@ jQuery.fn.selText = function() {
 				{
 					$(".todelete").each(function(idx,obj)
 					{
-						$(obj).removeClass("todelete");
+						$(".todelete").remove();
+		
 					});
 					
-					$(".deleted").each(function(idx,obj)
-					{
-						$(obj).removeClass("deleted");
-					});
-					alert(data)
+					
 				});
 			
 					
