@@ -587,17 +587,50 @@ jQuery.fn.selText = function() {
 				});
 				
 				
-				/*	
-				
-				$.post("/table/insert/"+str_replace(table,"`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
+				data = new Object();
+				var id =0;
+				$("tr.todelete").each(function(idx,obj)
 				{
-					$(".edited").each(function(idx,obj)
+
+					var id= $(obj).find($("td[colid=" + ($("#results th[key=PRI]").attr("colid")) + "]")).attr("contents");
+					
+					var field = $("#results th[key=PRI]").attr("field") ;
+					
+				
+					if(data[field] instanceof Array)
 					{
-						$(obj).removeClass("edited");
+						
+					}
+					else 
+					{
+						data[field]= new Array();
+					}
+					data[field].push(id);
+					
+					
+						
+					
+					
+					id++;
+					
+				});
+			
+					
+				
+				$.post("/table/droprow/"+str_replace(table,"`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
+				{
+					$(".todelete").each(function(idx,obj)
+					{
+						$(obj).removeClass("todelete");
+					});
+					
+					$(".deleted").each(function(idx,obj)
+					{
+						$(obj).removeClass("deleted");
 					});
 					alert(data)
 				});
-				*/
+			
 					
 				
 			});

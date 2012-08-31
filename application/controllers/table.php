@@ -170,26 +170,27 @@ class Table extends DB
 			$bits[1] = "`{$bits[1]}`";
 			
 			$table = $bits[0].".".$bits[1];
+
+		
+			$qry = "DELETE FROM {$table} ";
 			
+			$index = ereg_replace("[^A-Za-z0-9_-]", "", $_POST['index'] );
+	
+	
+			$tr = implode(", ",$load->$index);
+			$qry .= " WHERE `{$index}` IN ({$tr})";
 			
-			foreach ($load as $rowid=>$fields)
+
+			
+			$this->dbh->exec($qry);
+			$eif = $this->dbh->errorInfo();
+			if(intval($eif[0]) != 0)
 			{
-				$qry = "DELETE * FROM {$table} ";
-				
-				$index = ereg_replace("[^A-Za-z0-9_-]", "", $_POST['index'] );
-				$qry .= " WHERE `{$index}` = \"{$rowid}\"";
-				
-				echo $qry."\n";
-				
-				$this->dbh->exec($qry);
-				$eif = $this->dbh->errorInfo();
-				if(intval($eif[0]) != 0)
-				{
-					$errors[] = $eif;
-				}
-				
-			
+				$errors[] = $eif;
 			}
+			
+			
+			
 			
 			print_r($errors);
 			
