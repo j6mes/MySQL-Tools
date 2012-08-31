@@ -15,18 +15,20 @@
 		</div>
 		
 		
-		
+		<!--
 		<div id="main">
 			<div id="sidebar">
 				sidebar
 			</div>
 			<div id="content">
-			<?php 
-				echo $this->content;
-			?>
+			
 			</div>
 		</div>
+		-->
 		
+		<?php 
+				echo $this->content;
+			?>
 				
 				
 		<ul id="resultsetMenu" class="contextMenu">

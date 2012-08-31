@@ -106,5 +106,95 @@ class Table extends DB
 		}
 
 	}
+	
+	
+	function insert($table)
+	{
+		
+		if(isset($_POST['load']))
+		{
+			$load = json_decode(stripcslashes($_POST['load']));
+		
+			$bits = explode(".",$table,2);
+			
+			$bits[0] = "`{$bits[0]}`";
+			$bits[1] = "`{$bits[1]}`";
+			
+			$table = $bits[0].".".$bits[1];
+			
+			
+			foreach ($load as $rowid=>$fields)
+			{
+				$qry = "INSERT INTO {$table} (";
+				$fieldqry = array();
+				foreach($fields as $field=>$data)
+				{
+					$field = "`{$field}`";
+					$data = addslashes($data);
+					$fieldqry[] = "{$field}";
+					$dataqry[] = "\"{$data}\"";
+				}
+				
+				$qry.= implode(", ",$fieldqry);
+				$qry.= ") VALUES(";
+				$qry.= implode(", ",$dataqry);
+				$qry.= ");";
+				
+				
+				echo $qry."\n";
+				
+				$this->dbh->exec($qry);
+				$eif = $this->dbh->errorInfo();
+				if(intval($eif[0]) != 0)
+				{
+					$errors[] = $eif;
+				}
+				
+			
+			}
+			
+		}
 
+	}
+
+	function droprow($table)
+	{
+		
+		if(isset($_POST['load']))
+		{
+			$load = json_decode(stripcslashes($_POST['load']));
+		
+			$bits = explode(".",$table,2);
+			
+			$bits[0] = "`{$bits[0]}`";
+			$bits[1] = "`{$bits[1]}`";
+			
+			$table = $bits[0].".".$bits[1];
+			
+			
+			foreach ($load as $rowid=>$fields)
+			{
+				$qry = "DELETE * FROM {$table} ";
+				
+				$index = ereg_replace("[^A-Za-z0-9_-]", "", $_POST['index'] );
+				$qry .= " WHERE `{$index}` = \"{$rowid}\"";
+				
+				echo $qry."\n";
+				
+				$this->dbh->exec($qry);
+				$eif = $this->dbh->errorInfo();
+				if(intval($eif[0]) != 0)
+				{
+					$errors[] = $eif;
+				}
+				
+			
+			}
+			
+			print_r($errors);
+			
+		}
+
+
+	}
 }
