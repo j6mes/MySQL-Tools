@@ -10,7 +10,7 @@
 	<textarea id="qry"><?php echo $this->args['query']->Query; ?></textarea>
 </div>
 <div class="resultset_toolbar">
-	<a href="#" id="exec">Execute</a> <a href="#" id="commit">Commit Changes</a>
+	<a href="#" id="exec">Execute</a> | <a href="#" id="commit">Commit Changes</a> | <a href="#" class="restore">Restore Changes</a>
 </div>
 <div class="resultset_table">
 	Loading Results
@@ -90,7 +90,7 @@ jQuery.fn.selText = function() {
 		$(el).unbind("mousedown");
 		
 		$(el).addClass("edited");
-		
+		$(el).attr("original",$(el).attr("contents"));
 		activel = $(el);
 		hz= $(el).css("height");
 		wz= $(el).css("width");
@@ -184,7 +184,7 @@ jQuery.fn.selText = function() {
 		
 		for(i=0;i<parseInt($(this).attr("colspan"));++i)
 		{
-			row += "<td></td>";
+			row += "<td colid='"+i+"'></td>";
 		}
 		
 		row += "</tr><tr>"+$(this).parent().html()+"</tr>";
@@ -348,7 +348,7 @@ jQuery.fn.selText = function() {
 					$(".modalobj").append("<button action='save'>Save</button>");
 					$(".modalobj").append("<button action='cancel'>Cancel</button>");
 					$(".modalobj textarea").val(contents);
-			
+					$(el).attr("original",$(el).attr("contents"));
 					$("button[action=save]").click(function()
 					{
 						$(".modal").hide("slow");
@@ -516,7 +516,7 @@ jQuery.fn.selText = function() {
 				
 				var data = new Object();
 		
-				$(".edited").each(function(idx,obj)
+				$(".edited:not(tr.new .edited)").each(function(idx,obj)
 				{
 					var id= $(obj).parent().find($("td[colid=" + ($("#results th[key=PRI]").attr("colid")) + "]")).attr("contents");
 					var field = $("#results th[colid="+$(obj).attr("colid")+"]").attr("field") ;
@@ -532,17 +532,86 @@ jQuery.fn.selText = function() {
 					
 					
 					
+					
 				});
-				alert(JSON.stringify(data));
 				
+				var rows = new Object();
+				
+				
+			
 				$.post("/table/update/"+str_replace(table,"`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
 				{
+					$(".edited:not(tr.new .edited)").each(function(idx,obj)
+					{
+						$(obj).removeClass("edited");
+					});
 					alert(data)
 				});
+				
+				
+				data = new Object();
+				var id =0;
+				$("tr.new").each(function(idx,obja)
+				{
+					
+					$(obja).find(".edited").each(function(idx,obj)
+					{
 						
+						var field = $("#results th[colid="+$(obj).attr("colid")+"]").attr("field") ;
+						if(data[id] instanceof Object)
+						{
+							
+						}
+						else 
+						{
+							data[id]= new Object();
+						}
+						data[id][field] = $(obj).attr("contents");
+						
+						
+						
+						
+					});
+					
+					id++;
+					
+				});
+				
+				$.post("/table/insert/"+str_replace(table,"`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
+				{
+					$(".edited").each(function(idx,obj)
+					{
+						$(obj).removeClass("edited");
+					});
+					alert(data)
+				});
+				
+				
+				/*	
+				
+				$.post("/table/insert/"+str_replace(table,"`",""),{index:$("#results th[key=PRI]").attr("field"),load:JSON.stringify(data)},function(data)
+				{
+					$(".edited").each(function(idx,obj)
+					{
+						$(obj).removeClass("edited");
+					});
+					alert(data)
+				});
+				*/
+					
 				
 			});
 			
+			$(".restore").bind("click",function()
+			{
+				$("tr.new").remove();
+				$(".edited").each(function(idx,obj)
+				{
+					$(obj).removeClass("edited");
+					$(obj).attr("contents",$(obj).attr("original"));
+					$(obj).html($(obj).attr("original"));
+				});
+			});
 		
 	
 		},"json");
