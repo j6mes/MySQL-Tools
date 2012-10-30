@@ -18,6 +18,9 @@ class Index extends Controller
 	{
 		try
 		{
+			/*
+			 * If we need to log in then go to login page, else list databases
+			 */
 			if($this->needsAuth())
 			{
 				
@@ -29,11 +32,17 @@ class Index extends Controller
 		}
 		catch (exception $e)
 		{
+			/*
+			 * Display the login form
+			 */
 			if(isset($this->e))
 			{
 				$data['error']=$this->e;
 			}
 			
+			/*
+			 * Get list of servers and render fragments for dropdown box
+			 */
 			$servers = $GLOBALS['servers']->getServers();
 			if(sizeof($servers) and is_array($servers))
 			{
