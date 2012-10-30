@@ -23,7 +23,9 @@ ini_set('memory_limit','256M');
 ini_set('error_reporting' ,E_PARSE);
 ob_start();
 
-//load all the shizzz we need			TODO:Autoload the support folder.
+/**
+ * TODO Autoload the support folder
+ */
 require_once("application/support/session.php");
 require_once("application/support/controller.php");
 require_once("application/support/model.php");
