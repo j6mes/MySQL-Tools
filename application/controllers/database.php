@@ -2,11 +2,11 @@
 
 /**
  * Database Controller
- * Stores a whitelist of MySQL servers that the client can connect to.
+ * Basic database action such as list, create and update
  *  
  * @package default
  * @author	James Thorne / MySQL Tools / Redslide
- * @version 03/07/2012  
+ * @version 22/10/2012  
  */
 class Database extends DB
 {

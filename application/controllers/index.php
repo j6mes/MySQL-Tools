@@ -1,14 +1,23 @@
 <?php
 
+
+/**
+ * Index Controller
+ * Default action, this should just redirect or route to another contoller
+ *  
+ * @package default
+ * @author	James Thorne / MySQL Tools / Redslide
+ * @version 06/07/2012  
+ */
 class Index extends Controller
 {
-	
+	/*
+	 * Default action on controller
+	 */
 	function main()
 	{
-
 		try
 		{
-
 			if($this->needsAuth())
 			{
 				

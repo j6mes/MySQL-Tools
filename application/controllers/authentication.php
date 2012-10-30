@@ -1,7 +1,7 @@
 <?php
 /**
  * Authentication Controller
- * Stores a whitelist of MySQL servers that the client can connect to.
+ * Manages log in and out requests and tests user can connect to DB
  *  
  * @package default
  * @author	James Thorne / MySQL Tools / Redslide
