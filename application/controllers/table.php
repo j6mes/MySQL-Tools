@@ -1,29 +1,47 @@
 <?php
 
+/**
+ * Table Controller
+ * Gets, alters and manages tables in the database
+ *  
+ * @package default
+ * @author	James Thorne / MySQL Tools / Redslide
+ * @version 25/10/2012  
+ */
 class Table extends DB
 {
+	/*
+	 * Constructor, loads the table model
+	 */
 	function __construct()
 	{
 		application::load("application/models/mtable.php");
-
-		
-		
-		
 		parent::__construct();
 	}
 	
-	
+	/**
+	 * View the columns in a table
+	 *
+	 * @return void
+	 */
 	function view($name)
 	{
-		
+		/*
+		 * Get the table name and database, create a model by name
+		 */
 		list($database,$name) = explode(".", $name,2);
 		$table = new MTable($database, $name);
 		
 		
+		/*
+		 * Load the query model and query information about the table
+		 */
 		application::load("application/models/mquery.php");
+		$query = new MQuery("SELECT * FROM `{$table->Database}`.`{$table->Table}`");
 		
-		
-		$query = new MQuery("SELECT * FROM `{$table->Database}`.`{$table->Table}`");	
+		/*
+		 * Return result to view
+		 */	
 		$this->view->render("resultset",array("query"=>$query));
 		
 		
